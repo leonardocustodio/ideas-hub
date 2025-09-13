@@ -1,0 +1,38 @@
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  compatibilityDate: '2025-09-11',
+  modules: ['@nuxt/ui', '@nuxt/image', '@pinia/nuxt', '@nuxthub/core', '@nuxt/eslint'],
+  devtools: { enabled: false },
+  css: ['~/assets/css/main.css'],
+  fonts: {
+    families: [
+      {
+        name: 'Orbitron',
+        provider: 'google',
+        weights: [400, 700, 900]
+      },
+      {
+        name: 'Fira Code',
+        provider: 'google',
+        weights: [300, 400, 500, 700]
+      }
+    ]
+  },
+    hub: {
+        database: true,
+        kv: true,
+        blob: true,
+        cache: true,
+    },
+  app: {
+    head: {
+      title: 'Polkadot Ideas Hub',
+        htmlAttrs: {
+          lang: 'en',
+        },
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }
+      ]
+    }
+  }
+})

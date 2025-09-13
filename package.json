@@ -1,0 +1,43 @@
+{
+  "name": "ideas-hub",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "preview": "nuxt preview",
+    "deploy": "npx nuxthub deploy",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@nuxt/image": "^1.11.0",
+    "@nuxt/ui": "^4.0.0-alpha.1",
+    "@nuxthub/core": "0.9.0",
+    "@pinia/nuxt": "^0.11.2",
+    "nuxt": "^4.1.1",
+    "pinia": "^3.0.3",
+    "valibot": "^1.1.0"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.9.0",
+    "@types/bun": "^1.2.21",
+    "@types/node": "^24.3.1",
+    "eslint": "^9.35.0",
+    "typescript": "^5.9.2",
+    "vue-tsc": "^3.0.6",
+    "wrangler": "^4.35.0"
+  },
+  "trustedDependencies": [
+    "@parcel/watcher",
+    "@tailwindcss/oxide",
+    "esbuild",
+    "sharp",
+    "unrs-resolver",
+    "vue-demi",
+    "workerd"
+  ]
+}
