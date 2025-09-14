@@ -48,7 +48,7 @@ const handleSubmit = () => {
           class="absolute bottom-3 right-1.5 cyber-btn-primary text-sm !py-2 !px-4"
           @click="handleSubmit"
         >
-          Comment
+          SEND
         </button>
       </div>
     </div>

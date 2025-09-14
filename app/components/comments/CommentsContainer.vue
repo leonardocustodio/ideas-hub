@@ -35,7 +35,7 @@ const comments = ref([
 </script>
 
 <template>
-  <TerminalContainer header-title="COMMENTS" header-subtitle="DISCUSSION">
+  <TerminalContainer header-title="INPUT" header-subtitle="DISCUSSION">
 
     <!-- Comment Form -->
     <CommentsForm @submit="handleSubmitComment" />

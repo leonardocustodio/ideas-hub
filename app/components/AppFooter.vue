@@ -12,7 +12,7 @@
             > WHERE_BREAKTHROUGH_IDEAS_INITIALIZE
           </p>
           <p class="text-xs text-text-primary">
-            [SYSTEM_STATUS: OPERATIONAL] [UPTIME: 100%] [SECURITY: MAXIMUM]
+            [STATUS: OPERATIONAL] [UPTIME: 100%] <br class="sm:hidden">[SECURITY: MAXIMUM]
           </p>
         </div>
       </div>

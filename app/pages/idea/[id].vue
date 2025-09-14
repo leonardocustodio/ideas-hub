@@ -4,42 +4,84 @@ import MediaContainer from "~/components/media/MediaContainer.vue";
 import CommentsContainer from "~/components/comments/CommentsContainer.vue";
 import ReferenceContainer from "~/components/ReferenceContainer.vue";
 import InfoContainer from "~/components/InfoContainer.vue";
+import type { DatabaseIdea } from '~/types/database';
 
 const route = useRoute();
-const ideasStore = useIdeasStore();
 
 const id = computed(() => route.params.id as string);
 
+// Fetch all ideas and the specific idea
+const { data: allIdeas } = await useFetch<DatabaseIdea[]>('/api/ideas');
+const { data: currentIdea } = await useFetch<DatabaseIdea>(`/api/ideas/${id.value}`);
+
+// Transform the ideas to match Idea interface
+const transformedIdeas = computed(() => {
+  if (!allIdeas.value) return [];
+
+  return allIdeas.value.map((dbIdea: DatabaseIdea) => ({
+    id: dbIdea.id.toString(),
+    name: dbIdea.name,
+    description: dbIdea.description || '',
+    links: dbIdea.links || [],
+    attachments: [],
+    mockImages: dbIdea.images || [],
+    isAnonymous: dbIdea.author === 'Anonymous',
+    authorName: dbIdea.author,
+    votes: 0,
+    hasVoted: false,
+    createdAt: new Date(dbIdea.createdAt),
+    tags: dbIdea.tags || [],
+    tagline: dbIdea.tagline
+  }));
+});
+
 const idea = computed((): Idea | undefined => {
-  return ideasStore.ideas.find(i => i.id === id.value);
+  if (!currentIdea.value) return undefined;
+
+  const dbIdea = currentIdea.value;
+  return {
+    id: dbIdea.id.toString(),
+    name: dbIdea.name,
+    description: dbIdea.description || '',
+    links: dbIdea.links || [],
+    attachments: [],
+    mockImages: dbIdea.images || [],
+    isAnonymous: dbIdea.author === 'Anonymous',
+    authorName: dbIdea.author,
+    votes: 0,
+    hasVoted: false,
+    createdAt: new Date(dbIdea.createdAt),
+    tags: dbIdea.tags || [],
+    tagline: dbIdea.tagline
+  };
 });
 
 const currentIndex = computed(() => {
-  return ideasStore.ideas.findIndex(i => i.id === id.value);
+  return transformedIdeas.value.findIndex(i => i.id === id.value);
 });
 
 const previousIdea = computed(() => {
   const index = currentIndex.value;
-  const totalIdeas = ideasStore.ideas.length;
+  const totalIdeas = transformedIdeas.value.length;
   if (totalIdeas === 0) return null;
 
   if (index > 0) {
-    return ideasStore.ideas[index - 1];
+    return transformedIdeas.value[index - 1];
   }
   // Wrap to last item when at first
-  return ideasStore.ideas[totalIdeas - 1];
+  return transformedIdeas.value[totalIdeas - 1];
 });
 
 const nextIdea = computed(() => {
   const index = currentIndex.value;
-  const totalIdeas = ideasStore.ideas.length;
+  const totalIdeas = transformedIdeas.value.length;
   if (totalIdeas === 0) return null;
 
   if (index >= 0 && index < totalIdeas - 1) {
-    return ideasStore.ideas[index + 1];
+    return transformedIdeas.value[index + 1];
   }
   // Wrap to first item when at last
-  return ideasStore.ideas[0];
+  return transformedIdeas.value[0];
 });
 
 const goToPrevious = () => {

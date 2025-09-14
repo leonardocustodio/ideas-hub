@@ -13,18 +13,14 @@ const emit = defineEmits<{
   createIdea: [];
 }>();
 
-const timeRanges = ['Latest', 'Trending', 'All-time', 'Empty'];
+const timeRanges = ['Latest', 'Trending', 'All-time'];
 const showEmpty = ref(false);
 const localSelectedOption = ref(props.selectedTimeRange);
 
 const handleSetTimeRange = (option: string) => {
   localSelectedOption.value = option;
-  if (option === 'Empty') {
-    showEmpty.value = true;
-  } else {
-    showEmpty.value = false;
-    emit('setTimeRange', option);
-  }
+  showEmpty.value = false;
+  emit('setTimeRange', option);
 };
 
 const handleCreateIdea = () => {
@@ -51,7 +47,7 @@ const displayedIdeas = computed(() => {
     <TerminalContainer
       v-if="displayedIdeas.length > 0"
       header-title="STREAM"
-      :header-subtitle="`DISPLAYING_${displayedIdeas.length}_RECORDS`"
+      :header-subtitle="`${displayedIdeas.length}_RECORDS`"
       :clip-corners="['ClipTopRight', 'ClipBottomLeft']"
       class="overflow-hidden"
     >

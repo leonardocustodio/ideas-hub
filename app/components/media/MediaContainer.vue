@@ -61,7 +61,7 @@ const totalSlides = computed(() => {
 </script>
 
 <template>
-  <TerminalContainer v-if="hasMedia" header-title="MEDIA" header-subtitle="GALLERY">
+  <TerminalContainer v-if="hasMedia" header-title="MEDIA" header-subtitle="ATTACHMENTS">
 
       <!-- Horizontal Scrolling Container -->
       <div class="relative">

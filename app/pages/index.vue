@@ -1,8 +1,32 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import type { DatabaseIdea } from '~/types/database';
 
-const ideasStore = useIdeasStore();
 const selectedTimeRange = ref('Latest');
+
+// Fetch ideas from database on mount
+const { data: dbIdeas, pending } = await useFetch<DatabaseIdea[]>('/api/ideas');
+
+// Transform database ideas to match the Idea interface
+const transformedIdeas = computed(() => {
+  if (!dbIdeas.value) return [];
+
+  return dbIdeas.value.map((dbIdea: DatabaseIdea) => ({
+    id: dbIdea.id.toString(),
+    name: dbIdea.name,
+    description: dbIdea.description || '',
+    links: dbIdea.links || [],
+    attachments: [],
+    mockImages: dbIdea.images || [],
+    isAnonymous: dbIdea.author === 'Anonymous',
+    authorName: dbIdea.author,
+    votes: 0,
+    hasVoted: false,
+    createdAt: new Date(dbIdea.createdAt),
+    tags: dbIdea.tags || [],
+    tagline: dbIdea.tagline
+  }));
+});
 
 const ideas = computed(() => {
   const now = new Date();
@@ -14,7 +38,7 @@ const ideas = computed(() => {
 
   const timeLimit = timeRanges[selectedTimeRange.value as keyof typeof timeRanges];
 
-  return ideasStore.ideas
+  return transformedIdeas.value
     .filter(idea => {
     const timeDiff = now.getTime() - idea.createdAt.getTime();
     return selectedTimeRange.value === 'All-time' || timeDiff <= timeLimit;
@@ -49,7 +73,11 @@ const setTimeRange = (range: string) => {
     <AppContainer>
       <StatsGrid />
 
+      <div v-if="pending" class="text-center py-8">
+        <span class="text-cyber-green">LOADING IDEAS...</span>
+      </div>
       <ListContainer
+        v-else
         :ideas="ideas"
         :selected-time-range="selectedTimeRange"
         @set-time-range="setTimeRange"

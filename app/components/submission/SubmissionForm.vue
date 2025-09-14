@@ -33,11 +33,7 @@ const schema = v.object({
     v.transform(s => s.trim())
   ),
   tags: v.optional(v.string()),
-  description: v.pipe(
-    v.string(),
-    v.minLength(1, 'Description is required'),
-    v.transform(s => s.trim())
-  ),
+  description: v.optional(v.string()),
   links: v.optional(v.string()),
   thumbnail: v.optional(v.nullable(v.any())),
   gallery: v.optional(v.array(v.any())),
@@ -119,7 +115,7 @@ defineExpose({
     <SubmissionInput
       v-model="state.name"
       name="name"
-      label="PROJECT_NAME"
+      label="IDEA_NAME"
       :icon="IconStar"
       icon-color="pink"
       :required="true"
@@ -129,7 +125,7 @@ defineExpose({
     <SubmissionInput
       v-model="state.tagline"
       name="tagline"
-      label="PROJECT_TAGLINE"
+      label="TAGLINE"
       :icon="IconLines"
       icon-color="blue"
       :required="true"
@@ -140,20 +136,21 @@ defineExpose({
     <SubmissionInput
       v-model="state.tags"
       name="tags"
-      label="PROJECT_TAGS"
+      label="TAGS"
       :icon="IconStar"
       icon-color="purple"
-      hint="Separate tags with commas"
+      hint="SEPARATE WITH COMMAS"
       placeholder="DEFI, CROSS_CHAIN, SDK (SEPARATE_WITH_COMMAS)"
     />
 
     <SubmissionTextarea
       v-model="state.description"
       name="description"
-      label="DATA_DESCRIPTION"
+      label="DESCRIPTION"
       :icon="IconLines"
       icon-color="green"
-      :required="true"
+      :required="false"
+      hint="OPTIONAL"
       placeholder="DESCRIBE_INNOVATION_PROTOCOL_AND_IMPLEMENTATION_STRATEGY"
       :rows="4"
     />
@@ -164,31 +161,31 @@ defineExpose({
       label="REFERENCE_LINKS"
       :icon="IconLink"
       icon-color="blue"
-      hint="Documentation references similar products"
+      hint="SIMILAR/DOC"
       placeholder="HTTPS://DOCUMENTATION_LINK"
     />
 
     <SubmissionSingleFile
       v-model="state.thumbnail"
       name="thumbnail"
-      label="PROJECT_THUMBNAIL"
+      label="ICON"
       :icon="IconImage"
       icon-color="purple"
       accept="image/*"
-      button-text="CHOOSE_THUMBNAIL"
-      help-text="SINGLE_IMAGE_MAX_10MB"
+      button-text="SELECT"
+      help-text="MAX_SIZE_5MB"
       file-icon="🖼️"
     />
 
     <SubmissionInput
       v-model="state.videoLink"
       name="videoLink"
-      label="VIDEO_LOOM_LINK"
+      label="VIDEO_LINK"
       :icon="IconVideo"
       icon-color="green"
-      hint="Add loom youtube or video platform link"
+      hint="OPTIONAL"
       type="url"
-      placeholder="HTTPS://LOOM.COM/SHARE_OR_YOUTUBE_LINK"
+      placeholder="HTTPS://ANY_VIDEO_PLATFORM.COM/SHARE"
     />
 
     <SubmissionMultipleFile
@@ -198,8 +195,8 @@ defineExpose({
       :icon="IconPaperclip"
       icon-color="purple"
       accept="image/*"
-      button-text="SELECT_FILES"
-      help-text="IMAGES_MAX_10MB"
+      button-text="SELECT_IMAGES"
+      help-text="MAX_TOTAL_SIZE_10MB"
     />
   </UForm>
 </template>

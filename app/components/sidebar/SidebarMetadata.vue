@@ -23,7 +23,7 @@ const getRelativeTime = (date: Date): string => {
 </script>
 
 <template>
-  <TerminalContainer header-title="METADATA" header-subtitle="DETAILS">
+  <TerminalContainer header-title="METADATA" header-subtitle="FIELDS">
     <div class="space-y-3 text-text-primary uppercase px-4 sm:px-6 lg:px-6 py-3">
       <div class="flex items-center space-x-3">
         <IconUser class="w-4 h-4 text-cyber-pink" />

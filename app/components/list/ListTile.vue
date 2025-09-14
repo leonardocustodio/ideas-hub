@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Idea } from '~/types';
 import IconUpvote from "~/components/icon/IconUpvote.vue";
 import IconComment from "~/components/icon/IconComment.vue";
 
@@ -8,11 +7,9 @@ defineProps<{
   index: number;
 }>();
 
-const { toggleVote } = useIdeas();
-
-const handleVote = (ideaId: string) => {
-  toggleVote(ideaId);
-};
+// const handleVote = (ideaId: string) => {
+//   toggleVote(ideaId);
+// };
 
 const goToIdea = (ideaId: string) => {
   navigateTo(`/idea/${ideaId}`);

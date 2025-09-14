@@ -31,10 +31,10 @@ const goToHome = () => {
   <header class="relative z-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <div class="relative">
-        <TerminalContainer 
+        <TerminalContainer
           :scan-lines="true"
           header-title="SYSTEM"
-          header-subtitle="POLKADOT_IDEAS_HUB_v0.1.0"
+          header-subtitle="POLKADOT_HUB_V0.1"
           :header-right-content="currentTime"
           :clip-corners="['ClipTopRight', 'ClipBottomLeft']"
         >
