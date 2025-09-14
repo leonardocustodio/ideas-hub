@@ -1,6 +1,6 @@
 import { sqliteTable, integer } from 'drizzle-orm/sqlite-core'
-import {authors} from "~~/server/database/schema/authors";
-import {ideas} from "~~/server/database/schema/ideas";
+import { authors } from "./authors";
+import { ideas } from "./ideas";
 
 export const votes = sqliteTable('votes', {
   id: integer('id').primaryKey({ autoIncrement: true }),
