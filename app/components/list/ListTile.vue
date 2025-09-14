@@ -7,9 +7,10 @@ defineProps<{
   index: number;
 }>();
 
-// const handleVote = (ideaId: string) => {
-//   toggleVote(ideaId);
-// };
+const handleVote = (ideaId: string) => {
+  // TODO: Implement vote functionality with API
+  console.log('Vote for idea:', ideaId);
+};
 
 const goToIdea = (ideaId: string) => {
   navigateTo(`/idea/${ideaId}`);
@@ -22,7 +23,16 @@ const goToIdea = (ideaId: string) => {
       class="flex-1 p-6 hologram-effect cursor-pointer hover:bg-cyber-pink/5 transition-all duration-300"
       @click="goToIdea(idea.id)"
     >
-      <div class="flex items-start justify-between mb-3">
+      <div class="flex items-start mb-3">
+        <!-- Thumbnail -->
+        <div v-if="idea.icon" class="w-12 h-12 bg-darker-bg flex-shrink-0 border border-cyber-blue/30 overflow-hidden mr-4">
+          <img
+            :src="idea.icon"
+            :alt="idea.name"
+            class="w-full h-full object-cover"
+          >
+        </div>
+
         <div class="flex-1">
           <h3 class="text-base sm:text-lg font-bold cyber-text mb-2 uppercase group-hover:text-cyber-blue transition-colors" style="font-family: 'Orbitron', monospace;">
             <span class="text-polkadot-pink mr-2">#{{ String(index + 1).padStart(3, '0') }}</span>
@@ -53,7 +63,7 @@ const goToIdea = (ideaId: string) => {
 
         <div class="flex items-center space-x-4 text-xs">
           <span class="text-cyber-green">AUTHOR:</span>
-          <span class="text-text-accent uppercase">{{ idea.authorName }}</span>
+          <span class="text-text-accent uppercase">{{ idea.author }}</span>
         </div>
       </div>
     </div>

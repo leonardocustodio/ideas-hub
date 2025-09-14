@@ -10,18 +10,65 @@ export default eventHandler(async (event) => {
     });
   }
 
-  const result = await useDrizzle()
-    .select()
+  const db = useDrizzle();
+  const ideaId = parseInt(id);
+
+  // Get idea with author
+  const ideaWithAuthor = await db
+    .select({
+      id: tables.ideas.id,
+      name: tables.ideas.name,
+      tagline: tables.ideas.tagline,
+      description: tables.ideas.description,
+      links: tables.ideas.links,
+      icon: tables.ideas.icon,
+      video: tables.ideas.video,
+      createdAt: tables.ideas.createdAt,
+      authorId: tables.ideas.authorId,
+      authorName: tables.authors.name
+    })
     .from(tables.ideas)
-    .where(eq(tables.ideas.id, parseInt(id)))
+    .leftJoin(tables.authors, eq(tables.ideas.authorId, tables.authors.id))
+    .where(eq(tables.ideas.id, ideaId))
     .get();
 
-  if (!result) {
+  if (!ideaWithAuthor) {
     throw createError({
       statusCode: 404,
       statusMessage: 'Idea not found'
     });
   }
 
-  return result;
+  // Get tags for this idea
+  const tags = await db
+    .select({
+      tag: tables.tags.tag
+    })
+    .from(tables.tags)
+    .where(eq(tables.tags.ideaId, ideaId))
+    .all();
+
+  // Get images for this idea
+  const images = await db
+    .select({
+      file: tables.images.file
+    })
+    .from(tables.images)
+    .where(eq(tables.images.ideaId, ideaId))
+    .all();
+
+  // Combine everything
+  return {
+    id: ideaWithAuthor.id,
+    name: ideaWithAuthor.name,
+    tagline: ideaWithAuthor.tagline,
+    description: ideaWithAuthor.description,
+    links: ideaWithAuthor.links,
+    icon: ideaWithAuthor.icon,
+    video: ideaWithAuthor.video,
+    createdAt: ideaWithAuthor.createdAt,
+    author: ideaWithAuthor.authorName || 'Anonymous',
+    tags: tags.map(t => t.tag),
+    images: images.map(i => i.file)
+  };
 })

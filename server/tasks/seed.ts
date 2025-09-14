@@ -21,11 +21,10 @@ export default defineTask({
     // Insert authors and get their IDs
     const insertedAuthors = await Promise.all(
       authorData.map(async (author) => {
-        const result = await db.insert(tables.authors)
+        return await db.insert(tables.authors)
           .values(author)
           .returning()
           .get()
-        return result
       })
     )
 
@@ -46,7 +45,7 @@ export default defineTask({
         video: null,
         images: null,
         authorId: authorMap.get('Shawn Coe'),
-        createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+        createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
       },
       {
         name: 'Cross-Chain NFT Marketplace',
@@ -152,11 +151,10 @@ export default defineTask({
     // Insert ideas
     const insertedIdeas = await Promise.all(
       ideas.map(async (idea) => {
-        const result = await db.insert(tables.ideas)
+        return await db.insert(tables.ideas)
           .values(idea)
           .returning()
           .get()
-        return result
       })
     )
 

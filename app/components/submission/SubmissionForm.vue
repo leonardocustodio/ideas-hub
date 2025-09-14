@@ -14,6 +14,8 @@ import SubmissionLinksInput from "~/components/submission/SubmissionLinksInput.v
 import SubmissionSingleFile from "~/components/submission/SubmissionSingleFile.vue";
 import SubmissionMultipleFile from "~/components/submission/SubmissionMultipleFile.vue";
 
+import type { IdeaFormData } from '~/types';
+
 const emit = defineEmits<{
   submit: [formData: IdeaFormData];
 }>();

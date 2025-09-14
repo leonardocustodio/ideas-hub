@@ -9,9 +9,10 @@ interface Props {
 
 defineProps<Props>();
 
-const getRelativeTime = (date: Date): string => {
+const getRelativeTime = (date: Date | string): string => {
   const now = new Date();
-  const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  const diffInHours = Math.floor((now.getTime() - dateObj.getTime()) / (1000 * 60 * 60));
 
   if (diffInHours < 24) {
     return `${diffInHours}h ago`;
@@ -27,11 +28,11 @@ const getRelativeTime = (date: Date): string => {
     <div class="space-y-3 text-text-primary uppercase px-4 sm:px-6 lg:px-6 py-3">
       <div class="flex items-center space-x-3">
         <IconUser class="w-4 h-4 text-cyber-pink" />
-        <span>{{ idea.authorName }}</span>
+        <span>{{ idea.author }}</span>
       </div>
       <div class="flex items-center space-x-3">
         <IconEye class="w-4 h-4 text-cyber-pink" />
-        <span>{{ Math.floor(idea.votes * 3.2) }} views</span>
+        <span>{{ Math.floor((idea.votes || 0) * 3.2) }} views</span>
       </div>
       <div class="flex items-center space-x-3">
         <IconClock class="w-4 h-4 text-cyber-pink" />

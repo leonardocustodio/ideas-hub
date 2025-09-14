@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import IconDocument from "~/components/icon/IconDocument.vue";
+import { ref, computed } from 'vue';
 import IconArrowRight from "~/components/icon/IconArrowRight.vue";
 import IconArrowLeft from "~/components/icon/IconArrowLeft.vue";
 
@@ -14,7 +13,7 @@ const currentSlide = ref(0);
 const carouselRef = ref<HTMLElement>();
 
 const nextSlide = () => {
-  const totalSlides = (props.idea.mockImages?.length || 0) + props.idea.attachments.length;
+  const totalSlides = props.idea.images?.length || 0;
   if (totalSlides > 0) {
     currentSlide.value = (currentSlide.value + 1) % totalSlides;
     // Scroll the carousel
@@ -29,7 +28,7 @@ const nextSlide = () => {
 };
 
 const prevSlide = () => {
-  const totalSlides = (props.idea.mockImages?.length || 0) + props.idea.attachments.length;
+  const totalSlides = props.idea.images?.length || 0;
   if (totalSlides > 0) {
     currentSlide.value = currentSlide.value === 0 ? totalSlides - 1 : currentSlide.value - 1;
     // Scroll the carousel
@@ -43,20 +42,12 @@ const prevSlide = () => {
   }
 };
 
-const getAttachmentUrl = (file: File): string => {
-  if (import.meta.client && window.URL) {
-    return window.URL.createObjectURL(file);
-  }
-  return '';
-};
-
 const hasMedia = computed(() => {
-  return (props.idea.attachments && props.idea.attachments.length > 0) || 
-         (props.idea.mockImages && props.idea.mockImages.length > 0);
+  return props.idea.images && props.idea.images.length > 0;
 });
 
 const totalSlides = computed(() => {
-  return (props.idea.mockImages?.length || 0) + props.idea.attachments.length;
+  return props.idea.images?.length || 0;
 });
 </script>
 
@@ -67,61 +58,18 @@ const totalSlides = computed(() => {
       <div class="relative">
         <!-- Scroll Container -->
         <div ref="carouselRef" class="flex space-x-4 overflow-x-auto overflow-y-hidden scroll-smooth media-carousel">
-          <!-- Mock Images -->
+          <!-- Images -->
           <div
-            v-for="(imageUrl, index) in idea.mockImages"
-            :key="`mock-${index}`"
+            v-for="(imageUrl, index) in idea.images"
+            :key="`image-${index}`"
             class="flex-shrink-0 w-80 h-48 bg-darker-bg overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-200 border border-cyber-blue/20"
             @click="currentSlide = index"
           >
-            <video
-              v-if="imageUrl.includes('.mp4')"
-              controls
-              class="w-full h-full object-cover"
-              preload="metadata"
-            >
-              <source :src="imageUrl" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <NuxtImg
-              v-else
+            <img
               :src="imageUrl"
               :alt="`Media ${index + 1}`"
               class="w-full h-full object-cover"
-            />
-          </div>
-
-          <!-- File Attachments -->
-          <div
-            v-for="(attachment, index) in idea.attachments"
-            :key="`file-${index}`"
-            class="flex-shrink-0 w-80 h-48 bg-darker-bg overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-200 border border-cyber-blue/20"
-            @click="currentSlide = (idea.mockImages?.length || 0) + index"
-          >
-            <NuxtImg
-              v-if="attachment.type.startsWith('image/')"
-              :src="getAttachmentUrl(attachment)"
-              :alt="`Attachment ${index + 1}`"
-              class="w-full h-full object-cover"
-            />
-            <video
-              v-else-if="attachment.type.startsWith('video/')"
-              controls
-              class="w-full h-full object-cover"
             >
-              <source :src="getAttachmentUrl(attachment)" :type="attachment.type">
-              Your browser does not support the video tag.
-            </video>
-            <!-- Fallback for other file types -->
-            <div
-              v-else
-              class="w-full h-full flex items-center justify-center bg-darker-bg border border-cyber-blue/20"
-            >
-              <div class="text-center">
-                <IconDocument class="w-12 h-12 text-cyber-blue mx-auto mb-2" />
-                <p class="text-sm text-text-secondary font-medium">{{ attachment.name }}</p>
-              </div>
-            </div>
           </div>
         </div>
 

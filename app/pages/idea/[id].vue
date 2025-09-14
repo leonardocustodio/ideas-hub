@@ -4,84 +4,61 @@ import MediaContainer from "~/components/media/MediaContainer.vue";
 import CommentsContainer from "~/components/comments/CommentsContainer.vue";
 import ReferenceContainer from "~/components/ReferenceContainer.vue";
 import InfoContainer from "~/components/InfoContainer.vue";
-import type { DatabaseIdea } from '~/types/database';
+import type { IdeaWithDetails } from '~/types';
 
 const route = useRoute();
 
 const id = computed(() => route.params.id as string);
 
 // Fetch all ideas and the specific idea
-const { data: allIdeas } = await useFetch<DatabaseIdea[]>('/api/ideas');
-const { data: currentIdea } = await useFetch<DatabaseIdea>(`/api/ideas/${id.value}`);
+const { data: allIdeas } = await useFetch<IdeaWithDetails[]>('/api/ideas');
+const { data: currentIdea } = await useFetch<IdeaWithDetails>(`/api/ideas/${id.value}`);
 
-// Transform the ideas to match Idea interface
-const transformedIdeas = computed(() => {
+// Add client-side fields
+const allIdeasWithClientFields = computed((): IdeaWithDetails[] => {
   if (!allIdeas.value) return [];
-
-  return allIdeas.value.map((dbIdea: DatabaseIdea) => ({
-    id: dbIdea.id.toString(),
-    name: dbIdea.name,
-    description: dbIdea.description || '',
-    links: dbIdea.links || [],
-    attachments: [],
-    mockImages: dbIdea.images || [],
-    isAnonymous: dbIdea.author === 'Anonymous',
-    authorName: dbIdea.author,
+  return allIdeas.value.map(idea => ({
+    ...idea,
     votes: 0,
-    hasVoted: false,
-    createdAt: new Date(dbIdea.createdAt),
-    tags: dbIdea.tags || [],
-    tagline: dbIdea.tagline
+    hasVoted: false
   }));
 });
 
-const idea = computed((): Idea | undefined => {
+const idea = computed((): IdeaWithDetails | undefined => {
   if (!currentIdea.value) return undefined;
-
-  const dbIdea = currentIdea.value;
   return {
-    id: dbIdea.id.toString(),
-    name: dbIdea.name,
-    description: dbIdea.description || '',
-    links: dbIdea.links || [],
-    attachments: [],
-    mockImages: dbIdea.images || [],
-    isAnonymous: dbIdea.author === 'Anonymous',
-    authorName: dbIdea.author,
+    ...currentIdea.value,
     votes: 0,
-    hasVoted: false,
-    createdAt: new Date(dbIdea.createdAt),
-    tags: dbIdea.tags || [],
-    tagline: dbIdea.tagline
+    hasVoted: false
   };
 });
 
 const currentIndex = computed(() => {
-  return transformedIdeas.value.findIndex(i => i.id === id.value);
+  return allIdeasWithClientFields.value.findIndex(i => i.id.toString() === id.value);
 });
 
 const previousIdea = computed(() => {
   const index = currentIndex.value;
-  const totalIdeas = transformedIdeas.value.length;
+  const totalIdeas = allIdeasWithClientFields.value.length;
   if (totalIdeas === 0) return null;
 
   if (index > 0) {
-    return transformedIdeas.value[index - 1];
+    return allIdeasWithClientFields.value[index - 1];
   }
   // Wrap to last item when at first
-  return transformedIdeas.value[totalIdeas - 1];
+  return allIdeasWithClientFields.value[totalIdeas - 1];
 });
 
 const nextIdea = computed(() => {
   const index = currentIndex.value;
-  const totalIdeas = transformedIdeas.value.length;
+  const totalIdeas = allIdeasWithClientFields.value.length;
   if (totalIdeas === 0) return null;
 
   if (index >= 0 && index < totalIdeas - 1) {
-    return transformedIdeas.value[index + 1];
+    return allIdeasWithClientFields.value[index + 1];
   }
   // Wrap to first item when at last
-  return transformedIdeas.value[0];
+  return allIdeasWithClientFields.value[0];
 });
 
 const goToPrevious = () => {
@@ -98,7 +75,8 @@ const goToNext = () => {
 
 const handleVote = () => {
   if (idea.value) {
-    ideasStore.toggleVote(idea.value.id);
+    // TODO: Implement vote functionality with API
+    console.log('Vote for idea:', idea.value.id);
   }
 };
 
@@ -128,7 +106,7 @@ onMounted(() => {
           <ReferenceContainer :links="idea.links" />
 
           <!-- Comments Section -->
-          <CommentsContainer />
+          <CommentsContainer :idea-id="idea.id" />
 
         </div>
 

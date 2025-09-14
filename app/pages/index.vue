@@ -1,30 +1,18 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import type { DatabaseIdea } from '~/types/database';
+import type { IdeaWithDetails } from '~/types';
 
 const selectedTimeRange = ref('Latest');
+const { data: dbIdeas, pending } = await useFetch<IdeaWithDetails[]>('/api/ideas');
 
-// Fetch ideas from database on mount
-const { data: dbIdeas, pending } = await useFetch<DatabaseIdea[]>('/api/ideas');
-
-// Transform database ideas to match the Idea interface
-const transformedIdeas = computed(() => {
+// Add client-side fields
+const ideasWithClientFields = computed((): IdeaWithDetails[] => {
   if (!dbIdeas.value) return [];
 
-  return dbIdeas.value.map((dbIdea: DatabaseIdea) => ({
-    id: dbIdea.id.toString(),
-    name: dbIdea.name,
-    description: dbIdea.description || '',
-    links: dbIdea.links || [],
-    attachments: [],
-    mockImages: dbIdea.images || [],
-    isAnonymous: dbIdea.author === 'Anonymous',
-    authorName: dbIdea.author,
+  return dbIdeas.value.map((idea) => ({
+    ...idea,
     votes: 0,
-    hasVoted: false,
-    createdAt: new Date(dbIdea.createdAt),
-    tags: dbIdea.tags || [],
-    tagline: dbIdea.tagline
+    hasVoted: false
   }));
 });
 
@@ -38,21 +26,24 @@ const ideas = computed(() => {
 
   const timeLimit = timeRanges[selectedTimeRange.value as keyof typeof timeRanges];
 
-  return transformedIdeas.value
-    .filter(idea => {
-    const timeDiff = now.getTime() - idea.createdAt.getTime();
+  return ideasWithClientFields.value
+  .filter(idea => {
+    const ideaDate = typeof idea.createdAt === 'string' ? new Date(idea.createdAt) : idea.createdAt;
+    const timeDiff = now.getTime() - ideaDate.getTime();
     return selectedTimeRange.value === 'All-time' || timeDiff <= timeLimit;
   })
   .sort((a, b) => {
     if (selectedTimeRange.value === 'Latest') {
       // Sort by creation date (newest first)
-      return b.createdAt.getTime() - a.createdAt.getTime();
+      const aDate = typeof a.createdAt === 'string' ? new Date(a.createdAt) : a.createdAt;
+      const bDate = typeof b.createdAt === 'string' ? new Date(b.createdAt) : b.createdAt;
+      return bDate.getTime() - aDate.getTime();
     } else if (selectedTimeRange.value === 'Trending') {
       // Sort by votes (highest first)
-      return b.votes - a.votes;
+      return (b.votes || 0) - (a.votes || 0);
     } else {
       // All-time: sort by votes (highest first)
-      return b.votes - a.votes;
+      return (b.votes || 0) - (a.votes || 0);
     }
   });
 });

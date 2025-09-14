@@ -12,8 +12,17 @@ defineProps<Props>();
   <TerminalContainer header-title="MAIN" header-subtitle="IDEA">
     <div class="flex items-start space-x-4 px-4 sm:px-6 lg:px-6 py-3">
       <!-- Icon -->
-      <div class="w-16 h-16 bg-darker-bg flex items-center justify-center flex-shrink-0 border border-polkadot-pink">
-        <IconLightbulb class="w-8 h-8 text-polkadot-pink" />
+      <div class="w-16 h-16 bg-darker-bg flex items-center justify-center flex-shrink-0 border border-polkadot-pink overflow-hidden">
+        <img
+          v-if="idea.icon"
+          :src="idea.icon"
+          :alt="idea.name"
+          class="w-full h-full object-cover"
+        >
+        <IconLightbulb
+          v-else
+          class="w-8 h-8 text-polkadot-pink"
+        />
       </div>
 
       <!-- Title and Meta -->

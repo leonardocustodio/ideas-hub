@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { IdeaFormData } from '~/types';
 
 const emit = defineEmits<{
   back: [];
