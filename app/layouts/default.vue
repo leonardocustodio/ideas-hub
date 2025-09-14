@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen relative">
-    <MatrixRain />
+    <HashRain />
     <AppHeader />
     <slot />
     <AppFooter />

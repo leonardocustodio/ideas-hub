@@ -22,7 +22,7 @@ const handleSelect = (option: string) => {
 <template>
   <TerminalContainer
     header-title="FILTER"
-    header-subtitle="SELECT_SORT_ALGORITHM"
+    header-subtitle="SORT_ALGORITHM"
     :clip-corners="['ClipTopLeft', 'ClipBottomRight']"
   >
     <div class="flex items-center space-x-6 px-4 sm:px-6 lg:px-6 py-3">
@@ -39,7 +39,9 @@ const handleSelect = (option: string) => {
           ]"
           @click="handleSelect(option)"
         >
-          {{ option }}
+          <span v-if="option === 'All-time'" class="sm:hidden">ALL</span>
+          <span v-if="option === 'All-time'" class="hidden sm:inline">{{ option }}</span>
+          <span v-if="option !== 'All-time'">{{ option }}</span>
         </button>
       </div>
     </div>

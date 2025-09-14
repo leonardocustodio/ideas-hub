@@ -15,7 +15,7 @@ const emit = defineEmits<{
           <IconLightbulb class="w-6 h-6 text-polkadot-pink" />
         </div>
         <div>
-          <h2 class="text-xl sm:text-2xl font-bold cyber-heading">UPLOAD_PROTOCOL</h2>
+          <h2 class="text-xl sm:text-2xl font-bold cyber-heading">UPLOAD_IDEA</h2>
           <p class="text-text-secondary text-sm">> TRANSMIT_INNOVATION_DATA</p>
         </div>
       </div>
@@ -23,7 +23,7 @@ const emit = defineEmits<{
         class="flex items-center justify-center space-x-2 py-1.5 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200 text-cyber-green border border-cyber-green hover:bg-cyber-green hover:text-black"
         @click="emit('back')"
       >
-        <IconArrowLeft class="w-4 h-4" />
+        <IconArrowLeft class="w-4 h-4 hidden sm:block" />
         <span>Back</span>
       </button>
     </div>

@@ -18,7 +18,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   accept: 'image/*',
   buttonText: 'CHOOSE_FILE',
-  helpText: 'SINGLE_IMAGE_MAX_10MB',
+  helpText: 'MAX_SIZE_5MB',
   fileIcon: '🖼️',
   icon: undefined,
   hint: undefined

@@ -24,7 +24,7 @@ const emit = defineEmits<{
       <!-- Navigation Buttons -->
       <div class="flex justify-between space-x-4">
         <button
-          class="flex-1 flex items-center justify-center space-x-2 py-1.5 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200 text-cyber-green border border-cyber-green hover:bg-cyber-green hover:text-black"
+          class="flex-1 flex items-center justify-center space-x-2 py-2 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200 text-cyber-green border border-cyber-green hover:bg-cyber-green hover:text-black"
           @click="emit('go-previous')"
         >
           <IconArrowLeft class="w-4 h-4" />
@@ -32,7 +32,7 @@ const emit = defineEmits<{
         </button>
 
         <button
-          class="flex-1 flex items-center justify-center space-x-2 py-1.5 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200 text-cyber-green border border-cyber-green hover:bg-cyber-green hover:text-black"
+          class="flex-1 flex items-center justify-center space-x-2 py-2 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200 text-cyber-green border border-cyber-green hover:bg-cyber-green hover:text-black"
           @click="emit('go-next')"
         >
           <span>Next</span>
@@ -42,7 +42,7 @@ const emit = defineEmits<{
 
       <!-- Vote Button -->
       <button
-        class="w-full flex items-center justify-center space-x-2 py-1.5 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200"
+        class="w-full flex items-center justify-center space-x-2 py-2 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200"
         :class="idea.hasVoted
           ? 'bg-polkadot-pink text-white border border-polkadot-pink'
           : 'text-cyber-green border border-cyber-green hover:bg-polkadot-pink hover:text-white hover:border-polkadot-pink'"

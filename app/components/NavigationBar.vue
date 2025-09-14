@@ -42,7 +42,7 @@ const handleGoToSubmit = () => {
         <span class="text-cyber-blue animate-cyber-flicker">ONLINE</span>
       </div>
       <button
-        class="cyber-btn-primary flex items-center space-x-2"
+        class="cyber-btn-primary flex items-center justify-center sm:space-x-2 !px-3 sm:!px-8"
         @click="handleGoToSubmit"
       >
         <IconPlus class="w-5 h-5" />

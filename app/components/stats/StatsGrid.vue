@@ -5,10 +5,11 @@ import IconUpvote from "~/components/icon/IconUpvote.vue";
 import IconUsers from "~/components/icon/IconUsers.vue";
 import IconComment from "~/components/icon/IconComment.vue";
 
-const ideasStore = useIdeasStore();
+// Fetch ideas from database to get stats
+const { data: ideas } = await useFetch('/api/ideas');
 
-const totalIdeas = computed(() => ideasStore.ideas.length);
-const totalVotes = computed(() => ideasStore.ideas.reduce((sum, idea) => sum + idea.votes, 0));
+const totalIdeas = computed(() => ideas.value?.length || 0);
+const totalVotes = computed(() => ideas.value?.reduce((sum, idea) => sum + (idea.votes || 0), 0) || 0);
 const activeContributors = computed(() => Math.floor(totalIdeas.value * 0.7));
 const totalComments = computed(() => Math.floor(totalIdeas.value * 1.3));
 </script>

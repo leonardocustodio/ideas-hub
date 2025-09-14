@@ -1,41 +1,68 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed } from 'vue';
 import CommentsList from '~/components/comments/CommentsList.vue';
 import CommentsForm from '~/components/comments/CommentsForm.vue';
 
-const handleSubmitComment = (name: string, text: string) => {
-  // TODO: Implement comment submission
-  console.log('Comment submitted:', {
-    name,
-    text
-  });
+interface Props {
+  ideaId: number;
+}
+
+const props = defineProps<Props>();
+
+// Fetch comments from API
+const { data: dbComments, refresh } = await useFetch(`/api/ideas/${props.ideaId}/comments`);
+
+// Transform comments for display
+const comments = computed(() => {
+  if (!dbComments.value) return [];
+
+  return dbComments.value.map(comment => ({
+    id: comment.id,
+    author: comment.author || 'Anonymous',
+    timeAgo: getRelativeTime(comment.createdAt),
+    text: comment.comment
+  }));
+});
+
+const getRelativeTime = (date: Date | string): string => {
+  const now = new Date();
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  const diffInMs = now.getTime() - dateObj.getTime();
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+
+  if (diffInHours < 1) {
+    const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+    return `${diffInMinutes} minutes ago`;
+  } else if (diffInHours < 24) {
+    return `${diffInHours} hours ago`;
+  } else {
+    const diffInDays = Math.floor(diffInHours / 24);
+    return `${diffInDays} days ago`;
+  }
 };
 
-// Sample comments data
-const comments = ref([
-  {
-    id: 1,
-    author: 'Sarah Kim',
-    timeAgo: '2 hours ago',
-    text: "This is exactly what the ecosystem needs! I've been working on something similar and would love to collaborate. The cross-chain functionality you described would solve so many UX issues."
-  },
-  {
-    id: 2,
-    author: 'Marcus Rodriguez',
-    timeAgo: '5 hours ago',
-    text: 'Have you considered the security implications of cross-chain operations? It might be worth exploring some of the existing bridge protocols to see how they handle validation.'
-  },
-  {
-    id: 3,
-    author: 'Anonymous',
-    timeAgo: '1 day ago',
-    text: 'Great idea! This would definitely help with developer adoption. Are you planning to make this open source?'
+const handleSubmitComment = async (name: string, text: string) => {
+  try {
+    // Submit comment to API
+    await $fetch(`/api/ideas/${props.ideaId}/comments`, {
+      method: 'POST',
+      body: {
+        author: name,
+        comment: text
+      }
+    });
+
+    // Refresh comments list after successful submission
+    await refresh();
+  } catch (error) {
+    console.error('Failed to submit comment:', error);
+    // TODO: Show error message to user
   }
-]);
+};
 </script>
 
 <template>
-  <TerminalContainer header-title="COMMENTS" header-subtitle="DISCUSSION">
+  <TerminalContainer header-title="INPUT" header-subtitle="DISCUSSION">
 
     <!-- Comment Form -->
     <CommentsForm @submit="handleSubmitComment" />

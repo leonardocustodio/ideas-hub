@@ -4,42 +4,61 @@ import MediaContainer from "~/components/media/MediaContainer.vue";
 import CommentsContainer from "~/components/comments/CommentsContainer.vue";
 import ReferenceContainer from "~/components/ReferenceContainer.vue";
 import InfoContainer from "~/components/InfoContainer.vue";
+import type { IdeaWithDetails } from '~/types';
 
 const route = useRoute();
-const ideasStore = useIdeasStore();
 
 const id = computed(() => route.params.id as string);
 
-const idea = computed((): Idea | undefined => {
-  return ideasStore.ideas.find(i => i.id === id.value);
+// Fetch all ideas and the specific idea
+const { data: allIdeas } = await useFetch<IdeaWithDetails[]>('/api/ideas');
+const { data: currentIdea } = await useFetch<IdeaWithDetails>(`/api/ideas/${id.value}`);
+
+// Add client-side fields
+const allIdeasWithClientFields = computed((): IdeaWithDetails[] => {
+  if (!allIdeas.value) return [];
+  return allIdeas.value.map(idea => ({
+    ...idea,
+    votes: 0,
+    hasVoted: false
+  }));
+});
+
+const idea = computed((): IdeaWithDetails | undefined => {
+  if (!currentIdea.value) return undefined;
+  return {
+    ...currentIdea.value,
+    votes: 0,
+    hasVoted: false
+  };
 });
 
 const currentIndex = computed(() => {
-  return ideasStore.ideas.findIndex(i => i.id === id.value);
+  return allIdeasWithClientFields.value.findIndex(i => i.id.toString() === id.value);
 });
 
 const previousIdea = computed(() => {
   const index = currentIndex.value;
-  const totalIdeas = ideasStore.ideas.length;
+  const totalIdeas = allIdeasWithClientFields.value.length;
   if (totalIdeas === 0) return null;
 
   if (index > 0) {
-    return ideasStore.ideas[index - 1];
+    return allIdeasWithClientFields.value[index - 1];
   }
   // Wrap to last item when at first
-  return ideasStore.ideas[totalIdeas - 1];
+  return allIdeasWithClientFields.value[totalIdeas - 1];
 });
 
 const nextIdea = computed(() => {
   const index = currentIndex.value;
-  const totalIdeas = ideasStore.ideas.length;
+  const totalIdeas = allIdeasWithClientFields.value.length;
   if (totalIdeas === 0) return null;
 
   if (index >= 0 && index < totalIdeas - 1) {
-    return ideasStore.ideas[index + 1];
+    return allIdeasWithClientFields.value[index + 1];
   }
   // Wrap to first item when at last
-  return ideasStore.ideas[0];
+  return allIdeasWithClientFields.value[0];
 });
 
 const goToPrevious = () => {
@@ -56,7 +75,8 @@ const goToNext = () => {
 
 const handleVote = () => {
   if (idea.value) {
-    ideasStore.toggleVote(idea.value.id);
+    // TODO: Implement vote functionality with API
+    console.log('Vote for idea:', idea.value.id);
   }
 };
 
@@ -86,7 +106,7 @@ onMounted(() => {
           <ReferenceContainer :links="idea.links" />
 
           <!-- Comments Section -->
-          <CommentsContainer />
+          <CommentsContainer :idea-id="idea.id" />
 
         </div>
 

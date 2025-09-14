@@ -23,6 +23,6 @@ withDefaults(defineProps<Props>(), {
       <span v-if="subtitle" class="text-cyber-green ml-2">{{ subtitle }}</span>
       <slot />
     </div>
-    <span v-if="rightContent" class="text-cyber-pink">{{ rightContent }}</span>
+    <span v-if="rightContent" class="text-cyber-pink hidden sm:block">{{ rightContent }}</span>
   </div>
 </template>

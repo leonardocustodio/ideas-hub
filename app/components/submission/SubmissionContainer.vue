@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { IdeaFormData } from '~/types';
 
 const emit = defineEmits<{
   back: [];
@@ -30,8 +31,8 @@ defineExpose({
 
 <template>
   <TerminalContainer
-    header-title="UPLOAD_PROTOCOL"
-    header-subtitle="IDEA_SUBMISSION_INTERFACE_v1.0"
+    header-title="SUBMIT"
+    header-subtitle="IDEA_INTERFACE_V0.1"
   >
     <SubmissionHeader @back="emit('back')" />
 

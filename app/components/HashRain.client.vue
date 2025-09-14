@@ -1,31 +1,32 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
-interface MatrixColumn {
+interface HashColumn {
   left: string;
   animationDelay: string;
   animationDuration: string;
   text: string;
 }
 
-const matrixColumns = ref<MatrixColumn[]>([]);
+const hashColumns = ref<HashColumn[]>([]);
 
 onMounted(() => {
-  matrixColumns.value = Array.from({ length: 50 }, () => ({
+  const hexChars = '0123456789ABCDEF';
+  hashColumns.value = Array.from({ length: 50 }, () => ({
     left: Math.random() * 100 + '%',
     animationDelay: Math.random() * 10 + 's',
     animationDuration: (Math.random() * 10 + 10) + 's',
-    text: '01'.repeat(20).split('').map(() => Math.random() > 0.5 ? '1' : '0').join('')
+    text: Array.from({ length: 40 }, () => hexChars[Math.floor(Math.random() * 16)]).join('')
   }));
 });
 </script>
 
 <template>
-  <div class="matrix-rain">
+  <div class="hash-rain">
     <div
-      v-for="(column, index) in matrixColumns"
+      v-for="(column, index) in hashColumns"
       :key="index"
-      class="matrix-column"
+      class="hash-column"
       :style="{
         left: column.left,
         animationDelay: column.animationDelay,
@@ -38,7 +39,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.matrix-rain {
+.hash-rain {
   position: fixed;
   top: 0;
   left: 0;
@@ -49,20 +50,20 @@ onMounted(() => {
   overflow: hidden;
 }
 
-.matrix-column {
+.hash-column {
   position: absolute;
   top: -100vh;
   color: #00FF41;
   font-size: 14px;
   line-height: 1.2;
-  animation: matrixChar 10s linear infinite;
+  animation: hashChar 10s linear infinite;
   opacity: 0.3;
   writing-mode: vertical-rl;
   text-orientation: upright;
   filter: blur(0.5px);
 }
 
-@keyframes matrixChar {
+@keyframes hashChar {
   0% {
     top: -100vh;
     opacity: 0;
