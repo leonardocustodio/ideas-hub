@@ -1,7 +1,8 @@
 name: Deploy to NuxtHub
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -14,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Bun
+      - name: Install Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -27,5 +28,10 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Ensure NuxtHub module is installed
+        run: bunx nuxthub@latest ensure
+
       - name: Build & Deploy to NuxtHub
         uses: nuxt-hub/action@v2
+        with:
+          project-key: ${{ secrets.NUXT_HUB_PROJECT_KEY }}
