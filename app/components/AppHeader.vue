@@ -19,7 +19,7 @@ onMounted(() => {
 });
 
 const goToSubmit = () => {
-  navigateTo('/submit');
+  navigateTo('/instructions');
 };
 
 const goToHome = () => {

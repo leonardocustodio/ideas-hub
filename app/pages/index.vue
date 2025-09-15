@@ -49,7 +49,7 @@ const ideas = computed(() => {
 });
 
 const openSubmissionForm = () => {
-  navigateTo('/submit');
+  navigateTo('/instructions');
 };
 
 const setTimeRange = (range: string) => {

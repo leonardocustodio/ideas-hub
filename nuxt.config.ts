@@ -18,23 +18,23 @@ export default defineNuxtConfig({
       }
     ]
   },
-    hub: {
-        database: true,
-        kv: true,
-        blob: true,
-        cache: true,
-        bindings: {
-          observability: {
-            logs: true,
-          },
-        }
-    },
+  hub: {
+    database: true,
+    kv: true,
+    blob: true,
+    cache: true,
+    bindings: {
+      observability: {
+        logs: true,
+      },
+    }
+  },
   app: {
     head: {
       title: 'Polkadot Ideas Hub',
-        htmlAttrs: {
-          lang: 'en',
-        },
+      htmlAttrs: {
+        lang: 'en',
+      },
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }
       ]
