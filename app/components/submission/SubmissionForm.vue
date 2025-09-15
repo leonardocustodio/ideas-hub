@@ -175,7 +175,7 @@ defineExpose({
       icon-color="purple"
       accept="image/*"
       button-text="SELECT"
-      help-text="MAX_SIZE_5MB"
+      help-text="MAX_SIZE_4MB"
       file-icon="🖼️"
     />
 
@@ -198,7 +198,7 @@ defineExpose({
       icon-color="purple"
       accept="image/*"
       button-text="SELECT_IMAGES"
-      help-text="MAX_TOTAL_SIZE_10MB"
+      help-text="MAX_TOTAL_SIZE_16MB"
     />
   </UForm>
 </template>

@@ -1,15 +1,14 @@
 export default eventHandler(async (event) => {
-  // Handle multiple image uploads for gallery
-  return hubBlob().handleUpload(event, {
-    formKey: 'files', // The form field name for multiple files
-    multiple: true, // Multiple file upload
+  return await hubBlob().handleUpload(event, {
+    formKey: 'files',
+    multiple: true,
     ensure: {
-      maxSize: '5MB',
+      maxSize: '16MB',
       types: ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
     },
     put: {
-      addRandomSuffix: true, // Add random suffix to prevent conflicts
-      prefix: 'gallery' // Store in gallery folder
+      addRandomSuffix: true,
+      prefix: 'gallery'
     }
-  })
+  });
 })
