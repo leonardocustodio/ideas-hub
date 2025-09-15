@@ -1,5 +1,7 @@
 name: Deploy to NuxtHub
-on: push
+on:
+  release:
+    types: [published]
 
 jobs:
   deploy:
@@ -12,19 +14,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          version: 10
+          bun-version: latest
 
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun install
 
       - name: Build & Deploy to NuxtHub
         uses: nuxt-hub/action@v2
