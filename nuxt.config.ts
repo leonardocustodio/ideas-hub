@@ -23,6 +23,11 @@ export default defineNuxtConfig({
         kv: true,
         blob: true,
         cache: true,
+        bindings: {
+          observability: {
+            logs: true,
+          },
+        }
     },
   app: {
     head: {

@@ -77,7 +77,6 @@ const handleSubmit = async (formData: IdeaFormData) => {
     navigateTo('/');
   } catch (error) {
     console.error('Failed to add idea:', error);
-    // TODO: Show error message to user
   }
 };
 
