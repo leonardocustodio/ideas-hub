@@ -20,9 +20,9 @@ export default defineNuxtConfig({
   },
   hub: {
     database: true,
-    kv: true,
     blob: true,
-    cache: true,
+    kv: false,
+    cache: false,
     bindings: {
       observability: {
         logs: true,

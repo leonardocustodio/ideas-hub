@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, watch, onMounted } from 'vue';
 import MediaContainer from "~/components/media/MediaContainer.vue";
 import CommentsContainer from "~/components/comments/CommentsContainer.vue";
 import ReferenceContainer from "~/components/ReferenceContainer.vue";
@@ -8,6 +8,7 @@ import type { IdeaWithDetails } from '~/types';
 
 const route = useRoute();
 const { trackView } = useViewTracking();
+const { initializeVoting } = useVoting();
 
 const id = computed(() => route.params.id as string);
 
@@ -15,11 +16,17 @@ const id = computed(() => route.params.id as string);
 const { data: allIdeas } = await useFetch<IdeaWithDetails[]>('/api/ideas');
 const { data: currentIdea } = await useFetch<IdeaWithDetails>(`/api/ideas/${id.value}`);
 const { data: commentCount } = await useFetch(`/api/ideas/${id.value}/comments-count`);
+const localViewCount = ref(0);
 
 // Track page view (only once per session per idea)
 watch(id, async (newId) => {
   if (newId) {
-    await trackView(newId);
+    const tracked = await trackView(newId);
+    if (tracked && currentIdea.value) {
+      localViewCount.value = (currentIdea.value.views || 0) + 1;
+    } else if (currentIdea.value) {
+      localViewCount.value = currentIdea.value.views || 0;
+    }
   }
 }, { immediate: true });
 
@@ -33,6 +40,7 @@ const idea = computed((): IdeaWithDetails | undefined => {
   if (!currentIdea.value) return undefined;
   return {
     ...currentIdea.value,
+    views: localViewCount.value || currentIdea.value.views || 0,
     commentsCount: commentCount.value?.count || 0
   };
 });
@@ -78,16 +86,11 @@ const goToNext = () => {
 };
 
 const handleVote = () => {
-  if (idea.value) {
-    // TODO: Implement vote functionality with API
-    console.log('Vote for idea:', idea.value.id);
-  }
-};
-
-// Redirect to home if idea not found
-onMounted(() => {
+onMounted(async () => {
   if (!idea.value) {
     navigateTo('/');
+  } else {
+    await initializeVoting();
   }
 });
 </script>
@@ -121,7 +124,6 @@ onMounted(() => {
           :next-idea="nextIdea"
           @go-previous="goToPrevious"
           @go-next="goToNext"
-          @vote="handleVote"
         />
       </div>
     </AppContainer>

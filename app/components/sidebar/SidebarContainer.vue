@@ -13,7 +13,6 @@ defineProps<Props>();
 const emit = defineEmits<{
   'go-previous': [];
   'go-next': [];
-  'vote': [];
 }>();
 </script>
 
@@ -25,7 +24,6 @@ const emit = defineEmits<{
       :next-idea="nextIdea"
       @go-previous="emit('go-previous')"
       @go-next="emit('go-next')"
-      @vote="emit('vote')"
     />
 
     <SidebarMetadata :idea="idea" />

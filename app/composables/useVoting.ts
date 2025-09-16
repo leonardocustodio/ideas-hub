@@ -4,6 +4,7 @@ export const useVoting = () => {
   // Store voted ideas
   const votedIdeas = useState<number[]>('votedIdeas', () => []);
   const isLoadingVotes = useState<boolean>('isLoadingVotes', () => false);
+  const totalVotesCount = useState<number>('totalVotesCount', () => 0);
 
   // Initialize fingerprint and load user's votes
   const initializeVoting = async () => {
@@ -51,9 +52,13 @@ export const useVoting = () => {
         if (!votedIdeas.value.includes(ideaId)) {
           votedIdeas.value.push(ideaId);
         }
+        // Increment global vote count
+        totalVotesCount.value++;
       } else {
         // Remove from voted list
         votedIdeas.value = votedIdeas.value.filter(id => id !== ideaId);
+        // Decrement global vote count
+        totalVotesCount.value = Math.max(0, totalVotesCount.value - 1);
       }
 
       return result.voted;
@@ -68,11 +73,17 @@ export const useVoting = () => {
     return votedIdeas.value.includes(ideaId);
   };
 
+  const setTotalVotesCount = (count: number) => {
+    totalVotesCount.value = count;
+  };
+
   return {
     votedIdeas: readonly(votedIdeas),
     isLoadingVotes: readonly(isLoadingVotes),
+    totalVotesCount: readonly(totalVotesCount),
     initializeVoting,
     voteForIdea,
-    hasVoted
+    hasVoted,
+    setTotalVotesCount
   };
 };
