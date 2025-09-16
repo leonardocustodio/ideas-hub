@@ -34,6 +34,10 @@ const goToSubmit = () => {
 const goToHome = () => {
   navigateTo('/');
 };
+
+const goToInstructions = () => {
+  navigateTo('/instructions');
+};
 </script>
 
 <template>
@@ -51,6 +55,7 @@ const goToHome = () => {
             :current-time="currentTime"
             @go-to-home="goToHome"
             @go-to-submit="goToSubmit"
+            @go-to-instructions="goToInstructions"
           />
         </TerminalContainer>
       </div>
