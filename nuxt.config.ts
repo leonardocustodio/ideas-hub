@@ -1,7 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-09-11',
-  modules: ['@nuxt/ui', '@nuxt/image', '@nuxthub/core', '@nuxt/eslint'],
+  modules: [
+    '@nuxt/ui',
+    '@nuxt/image',
+    '@nuxthub/core',
+    '@nuxt/eslint',
+    'nuxt-nodemailer',
+    'nuxt-auth-utils'
+  ],
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   fonts: {

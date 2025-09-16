@@ -5,6 +5,7 @@ import type { IdeaWithDetails } from '~/types';
 const selectedTimeRange = ref('Latest');
 const { data: dbIdeas, pending } = await useFetch<IdeaWithDetails[]>('/api/ideas');
 const { initializeVoting } = useVoting();
+const { user, clear: clearSession } = useUserSession();
 
 onMounted(async () => {
   await initializeVoting();
