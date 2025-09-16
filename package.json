@@ -28,12 +28,8 @@
     "@nuxt/eslint": "^1.9.0",
     "@types/bun": "^1.2.22",
     "@types/node": "^24.5.0",
-    "@types/nodemailer": "^7.0.1",
-    "@types/nodemailer-sendgrid": "^1.0.3",
     "drizzle-kit": "^0.31.4",
     "eslint": "^9.35.0",
-    "nodemailer": "^7.0.6",
-    "nodemailer-sendgrid": "^1.0.3",
     "typescript": "^5.9.2",
     "vue-tsc": "^3.0.7",
     "wrangler": "^4.37.0"
