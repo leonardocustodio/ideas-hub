@@ -3,7 +3,7 @@ import IconChevronRight from "~/components/icon/IconChevronRight.vue";
 import IconLightbulb from "~/components/icon/IconLightbulb.vue";
 
 const handleContinue = () => {
-  // Mark that user has seen instructions
+  // Mark that the user has seen instructions
   if (import.meta.client) {
     localStorage.setItem('hasSeenInstructions', 'true');
   }
@@ -28,7 +28,7 @@ const guidelines = [
 <template>
   <div>
     <AppContainer>
-        <!-- Pre-flight Check Section - Moved to top -->
+        <!-- Pre-flight Check Section -->
         <TerminalContainer
           header-title="CHECK"
           header-subtitle="RESEARCH_AND_PREPARE"
@@ -120,7 +120,7 @@ const guidelines = [
                 <IconChevronRight class="size-5" />
               </button>
             </div>
-            
+
             <!-- Matrix Reference -->
             <div class="mt-6 text-center">
               <p class="text-text-secondary text-sm italic">

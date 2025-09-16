@@ -18,7 +18,7 @@ const { data: currentIdea } = await useFetch<IdeaWithDetails>(`/api/ideas/${id.v
 const { data: commentCount } = await useFetch(`/api/ideas/${id.value}/comments-count`);
 const localViewCount = ref(0);
 
-// Track page view (only once per session per idea)
+// Track page view
 watch(id, async (newId) => {
   if (newId) {
     const tracked = await trackView(newId);
@@ -57,7 +57,7 @@ const previousIdea = computed(() => {
   if (index > 0) {
     return allIdeasWithClientFields.value[index - 1];
   }
-  // Wrap to last item when at first
+  // Go to the last item when at the beginning
   return allIdeasWithClientFields.value[totalIdeas - 1];
 });
 
@@ -69,7 +69,7 @@ const nextIdea = computed(() => {
   if (index >= 0 && index < totalIdeas - 1) {
     return allIdeasWithClientFields.value[index + 1];
   }
-  // Wrap to first item when at last
+  // Go to the first item when at the end
   return allIdeasWithClientFields.value[0];
 });
 

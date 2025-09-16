@@ -6,12 +6,10 @@ const selectedTimeRange = ref('Latest');
 const { data: dbIdeas, pending } = await useFetch<IdeaWithDetails[]>('/api/ideas');
 const { initializeVoting } = useVoting();
 
-// Initialize voting on mount
 onMounted(async () => {
   await initializeVoting();
 });
 
-// Remove the client-side override for votes
 const ideasWithClientFields = computed((): IdeaWithDetails[] => {
   if (!dbIdeas.value) return [];
   return dbIdeas.value;
@@ -50,14 +48,14 @@ const ideas = computed(() => {
 });
 
 const openSubmissionForm = () => {
-  // Check if user has seen instructions before
+  // Check if a user has seen instructions before
   const hasSeenInstructions = import.meta.client ? localStorage.getItem('hasSeenInstructions') : false;
-  
+
   if (hasSeenInstructions) {
     // Skip instructions and go directly to submit form
     navigateTo('/submit');
   } else {
-    // Show instructions for first time
+    // Show instructions for the first time
     navigateTo('/instructions');
   }
 };
