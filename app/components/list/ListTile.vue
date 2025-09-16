@@ -40,7 +40,7 @@ const goToIdea = (ideaId: string) => {
 <template>
   <div class="flex items-stretch border-b border-cyber-blue/20 last:border-b-0 hover:bg-cyber-blue/5 transition-all duration-300 group scan-lines">
     <div
-      class="flex-1 p-6 hologram-effect cursor-pointer hover:bg-cyber-pink/5 transition-all duration-300"
+      class="flex-1 p-4 sm:p-6 hologram-effect cursor-pointer hover:bg-cyber-pink/5 transition-all duration-300"
       @click="goToIdea(idea.id)"
     >
       <div class="flex items-start mb-3">
@@ -55,7 +55,7 @@ const goToIdea = (ideaId: string) => {
 
         <div class="flex-1">
           <h3 class="text-base sm:text-lg font-bold cyber-text mb-2 uppercase group-hover:text-cyber-blue transition-colors" style="font-family: 'Orbitron', monospace;">
-            <span class="text-polkadot-pink mr-2">#{{ String(index + 1).padStart(3, '0') }}</span>
+            <span class="text-polkadot-pink mr-2">#{{ String(idea.id).padStart(3, '0') }}</span>
             <span class="group-hover:text-cyber-glow">{{ idea.name }}</span>
           </h3>
           <p class="text-text-primary leading-relaxed text-sm">
@@ -89,7 +89,7 @@ const goToIdea = (ideaId: string) => {
     </div>
 
     <!-- Control Panel -->
-    <div class="w-20 bg-darker-bg border-l border-cyber-blue/30 flex flex-col">
+    <div class="w-16 sm:w-20 bg-darker-bg border-l border-cyber-blue/30 flex flex-col">
       <button
         class="flex-1 flex flex-col items-center justify-center transition-all duration-300 group/vote"
         :class="[
