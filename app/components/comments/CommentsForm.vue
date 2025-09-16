@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+const props = defineProps<{
+  isSubmitting?: boolean;
+}>();
+
 const emit = defineEmits<{
   submit: [name: string, text: string];
 }>();
@@ -9,7 +13,7 @@ const commenterName = ref('');
 const commentText = ref('');
 
 const handleSubmit = () => {
-  if (commentText.value.trim()) {
+  if (commentText.value.trim() && !props.isSubmitting) {
     emit('submit', commenterName.value || 'Anonymous', commentText.value);
     // Clear form
     commenterName.value = '';
@@ -46,9 +50,10 @@ const handleSubmit = () => {
         <!-- Submit Button Inside Textarea -->
         <button
           class="absolute bottom-3 right-1.5 cyber-btn-primary text-sm !py-2 !px-4"
+          :disabled="isSubmitting"
           @click="handleSubmit"
         >
-          SEND
+          {{ isSubmitting ? 'SENDING...' : 'SEND' }}
         </button>
       </div>
     </div>

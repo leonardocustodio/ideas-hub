@@ -8,6 +8,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const isSubmittingComment = ref(false);
 
 // Fetch comments from API
 const { data: dbComments, refresh } = await useFetch(`/api/ideas/${props.ideaId}/comments`);
@@ -42,6 +43,7 @@ const getRelativeTime = (date: Date | string): string => {
 };
 
 const handleSubmitComment = async (name: string, text: string) => {
+  isSubmittingComment.value = true;
   try {
     // Submit comment to API
     await $fetch(`/api/ideas/${props.ideaId}/comments`, {
@@ -57,6 +59,8 @@ const handleSubmitComment = async (name: string, text: string) => {
   } catch (error) {
     console.error('Failed to submit comment:', error);
     // TODO: Show error message to user
+  } finally {
+    isSubmittingComment.value = false;
   }
 };
 </script>
@@ -65,7 +69,10 @@ const handleSubmitComment = async (name: string, text: string) => {
   <TerminalContainer header-title="INPUT" header-subtitle="DISCUSSION">
 
     <!-- Comment Form -->
-    <CommentsForm @submit="handleSubmitComment" />
+    <CommentsForm
+      :is-submitting="isSubmittingComment"
+      @submit="handleSubmitComment"
+    />
 
     <!-- Comments List -->
     <CommentsList :comments="comments" />
