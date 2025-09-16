@@ -16,35 +16,27 @@ const ideasWithClientFields = computed((): IdeaWithDetails[] => {
 });
 
 const ideas = computed(() => {
-  const now = new Date();
-  const timeRanges = {
-    'Latest': 7 * 24 * 60 * 60 * 1000,
-    'Trending': 30 * 24 * 60 * 60 * 1000,
-    'All-time': Infinity
-  };
+  // No filtering, show all ideas
+  const sortedIdeas = [...ideasWithClientFields.value];
 
-  const timeLimit = timeRanges[selectedTimeRange.value as keyof typeof timeRanges];
-
-  return ideasWithClientFields.value
-  .filter(idea => {
-    const ideaDate = typeof idea.createdAt === 'string' ? new Date(idea.createdAt) : idea.createdAt;
-    const timeDiff = now.getTime() - ideaDate.getTime();
-    return selectedTimeRange.value === 'All-time' || timeDiff <= timeLimit;
-  })
-  .sort((a, b) => {
-    if (selectedTimeRange.value === 'Latest') {
-      // Sort by creation date (newest first)
+  if (selectedTimeRange.value === 'Latest') {
+    // Sort by creation date (newest first)
+    return sortedIdeas.sort((a, b) => {
       const aDate = typeof a.createdAt === 'string' ? new Date(a.createdAt) : a.createdAt;
       const bDate = typeof b.createdAt === 'string' ? new Date(b.createdAt) : b.createdAt;
       return bDate.getTime() - aDate.getTime();
-    } else if (selectedTimeRange.value === 'Trending') {
-      // Sort by votes (highest first)
+    });
+  } else if (selectedTimeRange.value === 'Trending') {
+    // Sort by recent votes (most votes in last 7 days first)
+    return sortedIdeas.sort((a, b) => {
+      return (b.recentVotes || 0) - (a.recentVotes || 0);
+    });
+  } else {
+    // All: sort by total votes (highest first)
+    return sortedIdeas.sort((a, b) => {
       return (b.votes || 0) - (a.votes || 0);
-    } else {
-      // All-time: sort by votes (highest first)
-      return (b.votes || 0) - (a.votes || 0);
-    }
-  });
+    });
+  }
 });
 
 const openSubmissionForm = () => {

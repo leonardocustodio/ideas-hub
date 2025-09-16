@@ -6,27 +6,19 @@ const emit = defineEmits<{
   submit: [formData: IdeaFormData];
 }>();
 
-const isSubmitting = ref(false);
+const props = defineProps<{
+  isSubmitting?: boolean;
+}>();
+
 const submissionFormRef = ref();
 
 const handleSubmit = async (formData: IdeaFormData) => {
-  isSubmitting.value = true;
-  try {
-    emit('submit', formData);
-  } catch (error) {
-    console.error('Error submitting idea:', error);
-  } finally {
-    isSubmitting.value = false;
-  }
+  emit('submit', formData);
 };
 
 const triggerSubmit = () => {
   submissionFormRef.value?.submitForm();
 };
-
-defineExpose({
-  isSubmitting
-});
 </script>
 
 <template>
@@ -41,8 +33,8 @@ defineExpose({
       @submit="handleSubmit"
     />
 
-    <SubmissionFooter 
-      :is-submitting="isSubmitting"
+    <SubmissionFooter
+      :is-submitting="props.isSubmitting"
       @back="emit('back')"
       @submit="triggerSubmit"
     />
