@@ -19,7 +19,16 @@ onMounted(() => {
 });
 
 const goToSubmit = () => {
-  navigateTo('/submit');
+  // Check if user has seen instructions before
+  const hasSeenInstructions = process.client ? localStorage.getItem('hasSeenInstructions') : false;
+  
+  if (hasSeenInstructions) {
+    // Skip instructions and go directly to submit form
+    navigateTo('/submit');
+  } else {
+    // Show instructions for first time
+    navigateTo('/instructions');
+  }
 };
 
 const goToHome = () => {
