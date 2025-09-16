@@ -44,7 +44,7 @@ const handleVote = async () => {
 
 <template>
   <TerminalContainer header-title="CONTROL" header-subtitle="ACTIONS">
-    <div class="space-y-4 px-4 sm:px-6 lg:px-6 py-3">
+    <div class="space-y-4 px-3 sm:px-6 lg:px-6 py-2 sm:py-3">
       <!-- Navigation Buttons -->
       <div class="flex justify-between space-x-4">
         <button

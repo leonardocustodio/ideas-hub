@@ -25,7 +25,7 @@ const handleSelect = (option: string) => {
     header-subtitle="SORT_ALGORITHM"
     :clip-corners="['ClipTopLeft', 'ClipBottomRight']"
   >
-    <div class="flex items-center space-x-6 px-4 sm:px-6 lg:px-6 py-3">
+    <div class="flex items-center space-x-6 px-3 sm:px-6 lg:px-6 py-3">
       <span class="text-cyber-blue text-sm uppercase tracking-wider">> {{ label }}:</span>
       <div class="flex items-center space-x-2">
         <button

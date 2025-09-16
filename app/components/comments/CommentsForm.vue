@@ -19,7 +19,7 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <div class="px-4 sm:px-6 lg:px-6 pt-3">
+  <div class="px-3 sm:px-6 lg:px-6 pt-3">
     <div class="space-y-4">
       <!-- Name Field -->
       <div class="space-y-2">

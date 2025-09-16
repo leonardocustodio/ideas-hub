@@ -2,7 +2,7 @@
   <footer class="relative z-10 bg-black/40 backdrop-blur-sm">
     <div class="cyber-divider"/>
     <div class="pt-2 pb-12">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div class="flex flex-col items-center justify-center text-center space-y-4">
           <PolkadotLogo
             text-color="white"

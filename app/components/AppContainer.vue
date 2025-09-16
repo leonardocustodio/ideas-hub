@@ -21,7 +21,7 @@ const maxWidthClass = computed(() => {
 </script>
 
 <template>
-  <main :class="[maxWidthClass, 'mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-6 relative z-10']">
+  <main :class="[maxWidthClass, 'mx-auto px-3 sm:px-6 lg:px-8 pt-2 pb-4 sm:pb-6 relative z-10']">
     <slot />
   </main>
 </template>
