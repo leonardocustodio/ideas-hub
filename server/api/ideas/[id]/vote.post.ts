@@ -52,9 +52,9 @@ export default eventHandler(async (event) => {
 
       return { voted: true, message: 'Vote added' };
     }
-  } catch (error: any) {
+  } catch (error) {
     // Handle unique constraint violation
-    if (error?.message?.includes('UNIQUE')) {
+    if (error instanceof Error && error.message?.includes('UNIQUE')) {
       throw createError({
         statusCode: 409,
         statusMessage: 'Already voted'

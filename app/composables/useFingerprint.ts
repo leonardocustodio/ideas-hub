@@ -5,7 +5,7 @@ export const useFingerprint = () => {
   const isLoading = useState<boolean>('fingerprintLoading', () => false);
 
   const initFingerprint = async () => {
-    if (process.server) return;
+    if (import.meta.server) return;
     if (fingerprint.value) return fingerprint.value;
 
     try {
@@ -43,7 +43,7 @@ export const useFingerprint = () => {
   };
 
   const getFingerprint = async (): Promise<string> => {
-    if (process.server) return '';
+    if (import.meta.server) return '';
 
     // Check if we already have it in memory
     if (fingerprint.value) return fingerprint.value;

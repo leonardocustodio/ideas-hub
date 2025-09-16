@@ -51,7 +51,7 @@ const ideas = computed(() => {
 
 const openSubmissionForm = () => {
   // Check if user has seen instructions before
-  const hasSeenInstructions = process.client ? localStorage.getItem('hasSeenInstructions') : false;
+  const hasSeenInstructions = import.meta.client ? localStorage.getItem('hasSeenInstructions') : false;
   
   if (hasSeenInstructions) {
     // Skip instructions and go directly to submit form

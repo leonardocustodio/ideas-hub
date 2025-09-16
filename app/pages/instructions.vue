@@ -4,7 +4,7 @@ import IconLightbulb from "~/components/icon/IconLightbulb.vue";
 
 const handleContinue = () => {
   // Mark that user has seen instructions
-  if (process.client) {
+  if (import.meta.client) {
     localStorage.setItem('hasSeenInstructions', 'true');
   }
   navigateTo('/submit');

@@ -2,7 +2,7 @@ export const useViewTracking = () => {
   const VIEWED_IDEAS_KEY = 'viewed_ideas_session';
 
   const getViewedIdeas = (): Set<string> => {
-    if (process.server) return new Set();
+    if (import.meta.server) return new Set();
 
     try {
       const stored = sessionStorage.getItem(VIEWED_IDEAS_KEY);
@@ -13,13 +13,13 @@ export const useViewTracking = () => {
   };
 
   const hasViewedIdea = (ideaId: string): boolean => {
-    if (process.server) return false;
+    if (import.meta.server) return false;
     const viewedIdeas = getViewedIdeas();
     return viewedIdeas.has(ideaId);
   };
 
   const markAsViewed = (ideaId: string): void => {
-    if (process.server) return;
+    if (import.meta.server) return;
 
     const viewedIdeas = getViewedIdeas();
     viewedIdeas.add(ideaId);
@@ -32,7 +32,7 @@ export const useViewTracking = () => {
   };
 
   const trackView = async (ideaId: string): Promise<boolean> => {
-    if (process.server) return false;
+    if (import.meta.server) return false;
 
     // Check if already viewed in this session
     if (hasViewedIdea(ideaId)) {

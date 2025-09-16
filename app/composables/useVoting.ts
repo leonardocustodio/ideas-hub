@@ -7,7 +7,7 @@ export const useVoting = () => {
 
   // Initialize fingerprint and load user's votes
   const initializeVoting = async () => {
-    if (process.server) return;
+    if (import.meta.server) return;
 
     try {
       isLoadingVotes.value = true;
