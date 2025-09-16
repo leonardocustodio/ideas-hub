@@ -12,10 +12,9 @@ const hashColumns = ref<HashColumn[]>([]);
 
 onMounted(() => {
   const hexChars = '0123456789ABCDEF';
-  // Detect mobile device based on screen width
   const isMobile = window.innerWidth < 640; // Tailwind's sm breakpoint
-  const columnCount = isMobile ? 15 : 50; // Reduce to 15 columns on mobile
-  const textLength = isMobile ? 20 : 40; // Reduce text length on mobile too
+  const columnCount = isMobile ? 25 : 50;
+  const textLength = isMobile ? 30 : 40;
 
   hashColumns.value = Array.from({ length: columnCount }, () => ({
     left: Math.random() * 100 + '%',
