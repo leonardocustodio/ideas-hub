@@ -10,6 +10,7 @@ defineProps<Props>();
 const emit = defineEmits<{
   goToSubmit: [];
   goToHome: [];
+  goToInstructions: [];
 }>();
 
 const handleGoToHome = () => {
@@ -18,6 +19,10 @@ const handleGoToHome = () => {
 
 const handleGoToSubmit = () => {
   emit('goToSubmit');
+};
+
+const handleGoToInstructions = () => {
+  emit('goToInstructions');
 };
 </script>
 
@@ -41,6 +46,12 @@ const handleGoToSubmit = () => {
         <span class="text-cyber-green">STATUS:</span>
         <span class="text-cyber-blue animate-cyber-flicker">ONLINE</span>
       </div>
+      <button
+        class="text-text-secondary hover:text-cyber-blue transition-colors text-sm"
+        @click="handleGoToInstructions"
+      >
+        HELP
+      </button>
       <button
         class="cyber-btn-primary flex items-center justify-center sm:space-x-2 !px-3 sm:!px-8"
         @click="handleGoToSubmit"
