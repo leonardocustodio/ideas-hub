@@ -30,7 +30,7 @@ const guidelines = [
     <AppContainer>
         <!-- Pre-flight Check Section - Moved to top -->
         <TerminalContainer
-          header-title="PRE-FLIGHT CHECK"
+          header-title="CHECK"
           header-subtitle="RESEARCH_AND_PREPARE"
           :clip-corners="['ClipTopLeft', 'ClipBottomRight']"
           class="mb-6"
