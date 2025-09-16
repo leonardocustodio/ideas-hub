@@ -1,7 +1,6 @@
 import * as v from 'valibot'
 import { otpStore } from '../../utils/otp-store'
 
-// Define validation schema for request body
 const VerifyOtpSchema = v.object({
   email: v.pipe(
     v.string(),
@@ -23,7 +22,6 @@ const VerifyOtpSchema = v.object({
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
-  // Validate request body with valibot
   let validatedData
   try {
     validatedData = v.parse(VerifyOtpSchema, body)

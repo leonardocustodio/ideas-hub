@@ -23,7 +23,6 @@
         "eslint": "^9.35.0",
         "nodemailer": "^7.0.6",
         "nodemailer-sendgrid": "^1.0.3",
-        "nuxt-nodemailer": "^1.1.2",
         "typescript": "^5.9.2",
         "vue-tsc": "^3.0.7",
         "wrangler": "^4.37.0",
@@ -1740,8 +1739,6 @@
 
     "nuxt-auth-utils": ["nuxt-auth-utils@0.5.24", "", { "dependencies": { "@adonisjs/hash": "^9.1.1", "@nuxt/kit": "^4.1.0", "defu": "^6.1.4", "h3": "^1.15.4", "hookable": "^5.5.3", "jose": "^6.1.0", "ofetch": "^1.4.1", "openid-client": "^6.7.1", "pathe": "^2.0.3", "scule": "^1.3.0", "uncrypto": "^0.1.3" }, "peerDependencies": { "@atproto/api": "^0.13.15", "@atproto/oauth-client-node": "^0.2.0", "@simplewebauthn/browser": "^11.0.0", "@simplewebauthn/server": "^11.0.0" }, "optionalPeers": ["@atproto/api", "@atproto/oauth-client-node", "@simplewebauthn/browser", "@simplewebauthn/server"] }, "sha512-BfVr/zEGH23Dbs5jCFVg/IQEe+07bRdA0/j5Ufo1aiVzh/pZjYtRWg+cMs7/7wIeQw7zfkrtadhVm4QRidFOmQ=="],
 
-    "nuxt-nodemailer": ["nuxt-nodemailer@1.1.2", "", { "dependencies": { "@nuxt/kit": "^3.11.2" }, "peerDependencies": { "nodemailer": "^6.9.13" } }, "sha512-oYi0AnEZu56euRxJ/G7NAQLmRct9ORgKvxF3AcAbVlxfKJJQ7kNPZnlymQbzg9F/SLBlQgSE+mSQR/3Wz6JOIg=="],
-
     "nypm": ["nypm@0.6.1", "", { "dependencies": { "citty": "^0.1.6", "consola": "^3.4.2", "pathe": "^2.0.3", "pkg-types": "^2.2.0", "tinyexec": "^1.0.1" }, "bin": { "nypm": "dist/cli.mjs" } }, "sha512-hlacBiRiv1k9hZFiphPUkfSQ/ZfQzZDzC+8z0wL3lvDAOUu/2NnChkKuMoMjNur/9OpKuz2QsIeiPVN0xM5Q0w=="],
 
     "oauth-sign": ["oauth-sign@0.9.0", "", {}, "sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ=="],
@@ -2476,8 +2473,6 @@
 
     "nuxt-auth-utils/@nuxt/kit": ["@nuxt/kit@4.1.2", "", { "dependencies": { "c12": "^3.2.0", "consola": "^3.4.2", "defu": "^6.1.4", "destr": "^2.0.5", "errx": "^0.1.0", "exsolve": "^1.0.7", "ignore": "^7.0.5", "jiti": "^2.5.1", "klona": "^2.0.6", "mlly": "^1.8.0", "ohash": "^2.0.11", "pathe": "^2.0.3", "pkg-types": "^2.3.0", "rc9": "^2.1.2", "scule": "^1.3.0", "semver": "^7.7.2", "std-env": "^3.9.0", "tinyglobby": "^0.2.15", "ufo": "^1.6.1", "unctx": "^2.4.1", "unimport": "^5.2.0", "untyped": "^2.0.0" } }, "sha512-P5q41xeEOa6ZQC0PvIP7TSBmOAMxXK4qihDcCbYIJq8RcVsEPbGZVlidmxE6EOw1ucSyodq9nbV31FAKwoL4NQ=="],
 
-    "nuxt-nodemailer/@nuxt/kit": ["@nuxt/kit@3.19.1", "", { "dependencies": { "c12": "^3.2.0", "consola": "^3.4.2", "defu": "^6.1.4", "destr": "^2.0.5", "errx": "^0.1.0", "exsolve": "^1.0.7", "ignore": "^7.0.5", "jiti": "^2.5.1", "klona": "^2.0.6", "knitwork": "^1.2.0", "mlly": "^1.8.0", "ohash": "^2.0.11", "pathe": "^2.0.3", "pkg-types": "^2.3.0", "rc9": "^2.1.2", "scule": "^1.3.0", "semver": "^7.7.2", "std-env": "^3.9.0", "tinyglobby": "^0.2.14", "ufo": "^1.6.1", "unctx": "^2.4.1", "unimport": "^5.2.0", "untyped": "^2.0.0" } }, "sha512-cLKNdmfFk49o9Tt7g+vwD9rYN7cLg0D6K6CRB+4aaQYxveJXQbZGgZ4z7CGq5HxIG22Ki8G3XSXaiN1s6lVyZg=="],
-
     "postcss-calc/postcss-selector-parser": ["postcss-selector-parser@7.1.0", "", { "dependencies": { "cssesc": "^3.0.0", "util-deprecate": "^1.0.2" } }, "sha512-8sLjZwK0R+JlxlYcTuVnyT2v+htpdrjDOKuMcOVdYjt52Lh8hWRYpxBPoKx/Zg+bcjc3wx6fmQevMmUztS/ccA=="],
 
     "postcss-discard-comments/postcss-selector-parser": ["postcss-selector-parser@7.1.0", "", { "dependencies": { "cssesc": "^3.0.0", "util-deprecate": "^1.0.2" } }, "sha512-8sLjZwK0R+JlxlYcTuVnyT2v+htpdrjDOKuMcOVdYjt52Lh8hWRYpxBPoKx/Zg+bcjc3wx6fmQevMmUztS/ccA=="],
@@ -2671,8 +2666,6 @@
     "mlly/pkg-types/confbox": ["confbox@0.1.8", "", {}, "sha512-RMtmw0iFkeR4YV+fUOSucriAQNb9g8zFR52MWCtl+cCZOFRNL6zeB395vPzFhEjjn4fMxXudmELnl/KF/WrK6w=="],
 
     "nuxt-auth-utils/@nuxt/kit/ignore": ["ignore@7.0.5", "", {}, "sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg=="],
-
-    "nuxt-nodemailer/@nuxt/kit/ignore": ["ignore@7.0.5", "", {}, "sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg=="],
 
     "postcss-svgo/svgo/commander": ["commander@11.1.0", "", {}, "sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ=="],
 

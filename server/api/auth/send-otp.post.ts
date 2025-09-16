@@ -4,7 +4,6 @@ import nodemailerSendgrid from 'nodemailer-sendgrid'
 import * as v from 'valibot'
 import { otpStore } from '../../utils/otp-store'
 
-// Create custom validation for allowed domain
 const createEmailValidator = () => {
   const allowedDomain = process.env.ALLOWED_EMAIL_DOMAIN
 
@@ -24,7 +23,6 @@ const createEmailValidator = () => {
     )
   }
 
-  // No domain restriction, just validate email format
   return v.pipe(
     v.string(),
     v.email('Invalid email address format')

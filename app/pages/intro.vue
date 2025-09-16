@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
-// Define the layout for this page
 definePageMeta({
   layout: 'blank'
 });
@@ -35,7 +34,7 @@ onMounted(() => {
 const enterDimension = async (dimension: 'order' | 'chaos') => {
   if (isTransitioning.value) return;
 
-  // Dimension α (order) is still under development
+  // Dimension order is still under development
   if (dimension === 'order') return;
 
   selectedDimension.value = dimension;
@@ -47,7 +46,7 @@ const enterDimension = async (dimension: 'order' | 'chaos') => {
   // Wait for animation to complete
   await new Promise(resolve => setTimeout(resolve, 4000));
 
-  // Show email form instead of navigating directly
+  // Show email form
   isTransitioning.value = false;
   showEmailForm.value = true;
 };
@@ -75,7 +74,7 @@ const submitEmail = async () => {
     });
 
     if (response.success) {
-      // Show OTP input field
+      // Show the OTP input field
       showOtpInput.value = true;
     }
   } catch (error) {
@@ -109,13 +108,10 @@ const verifyOtp = async () => {
     });
 
     if (response.success) {
-      // Store theme preference
       localStorage.setItem('polkadot-theme', selectedDimension.value === 'order' ? 'light' : 'dark');
 
       // Refresh session to get the new auth state
       await refreshSession();
-
-      // Navigate to home
       await router.push('/');
     }
   } catch (error) {
@@ -145,7 +141,7 @@ const resendOtp = async () => {
         <div class="scan-beam"/>
       </div>
     </div>
-    
+
     <!-- HUD Elements -->
     <div class="hud-elements">
       <div class="hud-corner top-left">
@@ -165,7 +161,7 @@ const resendOtp = async () => {
         <span class="hud-text">CONNECTED</span>
       </div>
     </div>
-    
+
     <!-- Central Interface -->
     <div class="central-interface">
       <!-- Phase Display -->
@@ -175,13 +171,13 @@ const resendOtp = async () => {
         </div>
         <div class="phase-progress">
           <div
-v-for="i in 4" 
-               :key="i" 
+v-for="i in 4"
+               :key="i"
                class="progress-segment"
                :class="{ active: i <= currentPhase + 1 }"/>
         </div>
       </div>
-      
+
       <!-- Dimensional Portals -->
       <div v-if="currentPhase >= 3" class="portal-array">
         <!-- Order Dimension -->
@@ -224,7 +220,7 @@ v-for="i in 4"
             </div>
           </div>
         </div>
-        
+
         <!-- Chaos Dimension -->
         <div class="dimension-portal chaos-dimension" @click="enterDimension('chaos')">
           <div class="portal-housing">
@@ -267,7 +263,7 @@ v-for="i in 4"
         </div>
       </div>
     </div>
-    
+
     <!-- Quantum Transition -->
     <div v-if="isTransitioning" class="quantum-transition" :class="selectedDimension + '-quantum'">
       <div class="quantum-tunnel">
@@ -279,8 +275,8 @@ v-for="i in 4"
         </h2>
         <div class="data-stream">
           <div v-for="i in 8" :key="i" class="data-line">
-            <span class="data-label">{{ 
-              ['VALIDATORS', 'PARACHAINS', 'COLLATORS', 'NOMINATORS', 'BLOCK HEIGHT', 'ERA', 'SESSION', 'EPOCH'][i-1] 
+            <span class="data-label">{{
+              ['VALIDATORS', 'PARACHAINS', 'COLLATORS', 'NOMINATORS', 'BLOCK HEIGHT', 'ERA', 'SESSION', 'EPOCH'][i-1]
             }}:</span>
             <span class="data-value">{{ Math.random().toString(36).substr(2, 8).toUpperCase() }}</span>
           </div>

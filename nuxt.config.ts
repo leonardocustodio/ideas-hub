@@ -6,7 +6,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxthub/core',
     '@nuxt/eslint',
-    'nuxt-nodemailer',
     'nuxt-auth-utils'
   ],
   devtools: { enabled: true },
