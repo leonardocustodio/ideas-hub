@@ -8,7 +8,7 @@ definePageMeta({
 });
 
 const router = useRouter();
-const { loggedIn, fetch: refreshSession } = useUserSession();
+const { fetch: refreshSession } = useUserSession();
 const selectedDimension = ref<'order' | 'chaos' | null>(null);
 const isTransitioning = ref(false);
 const showEmailForm = ref(false);
@@ -78,8 +78,9 @@ const submitEmail = async () => {
       // Show OTP input field
       showOtpInput.value = true;
     }
-  } catch (error: any) {
-    errorMessage.value = error.data?.statusMessage || 'Failed to send OTP. Please try again.';
+  } catch (error) {
+    const err = error as { data?: { statusMessage?: string } };
+    errorMessage.value = err.data?.statusMessage || 'Failed to send OTP. Please try again.';
   } finally {
     isSubmittingEmail.value = false;
   }
@@ -117,8 +118,9 @@ const verifyOtp = async () => {
       // Navigate to home
       await router.push('/');
     }
-  } catch (error: any) {
-    errorMessage.value = error.data?.statusMessage || 'Invalid or expired code. Please try again.';
+  } catch (error) {
+    const err = error as { data?: { statusMessage?: string } };
+    errorMessage.value = err.data?.statusMessage || 'Invalid or expired code. Please try again.';
     otpCode.value = '';
   } finally {
     isVerifyingOtp.value = false;
@@ -137,29 +139,29 @@ const resendOtp = async () => {
     <!-- Scanning Interface -->
     <div class="scanning-interface">
       <div class="scan-grid">
-        <div class="grid-line" v-for="i in 20" :key="i"></div>
+        <div v-for="i in 20" :key="i" class="grid-line"/>
       </div>
       <div class="scan-overlay">
-        <div class="scan-beam"></div>
+        <div class="scan-beam"/>
       </div>
     </div>
     
     <!-- HUD Elements -->
     <div class="hud-elements">
       <div class="hud-corner top-left">
-        <div class="corner-bracket"></div>
+        <div class="corner-bracket"/>
         <span class="hud-text">POLKADOT.NODE</span>
       </div>
       <div class="hud-corner top-right">
-        <div class="corner-bracket"></div>
+        <div class="corner-bracket"/>
         <span class="hud-text">v0.1.0</span>
       </div>
       <div class="hud-corner bottom-left">
-        <div class="corner-bracket"></div>
+        <div class="corner-bracket"/>
         <span class="hud-text">SYNCED</span>
       </div>
       <div class="hud-corner bottom-right">
-        <div class="corner-bracket"></div>
+        <div class="corner-bracket"/>
         <span class="hud-text">CONNECTED</span>
       </div>
     </div>
@@ -168,36 +170,36 @@ const resendOtp = async () => {
     <div class="central-interface">
       <!-- Phase Display -->
       <div class="phase-display">
-        <div class="phase-text" :key="currentPhase">
+        <div :key="currentPhase" class="phase-text">
           {{ phases[currentPhase] }}
         </div>
         <div class="phase-progress">
-          <div class="progress-segment" 
-               v-for="i in 4" 
-               :key="i"
-               :class="{ active: i <= currentPhase + 1 }">
-          </div>
+          <div
+v-for="i in 4" 
+               :key="i" 
+               class="progress-segment"
+               :class="{ active: i <= currentPhase + 1 }"/>
         </div>
       </div>
       
       <!-- Dimensional Portals -->
-      <div class="portal-array" v-if="currentPhase >= 3">
+      <div v-if="currentPhase >= 3" class="portal-array">
         <!-- Order Dimension -->
         <div class="dimension-portal order-dimension disabled-dimension">
           <div class="portal-housing">
-            <div class="housing-frame"></div>
+            <div class="housing-frame"/>
             <div class="portal-core order-core">
               <div class="core-rings">
-                <div class="core-ring" v-for="i in 6" :key="i"></div>
+                <div v-for="i in 6" :key="i" class="core-ring"/>
               </div>
               <div class="core-center">
                 <div class="quantum-symbol order-symbol">
-                  <div class="symbol-element" v-for="i in 12" :key="i"></div>
+                  <div v-for="i in 12" :key="i" class="symbol-element"/>
                 </div>
               </div>
             </div>
             <div class="portal-field order-field">
-              <div class="field-particle" v-for="i in 20" :key="i"></div>
+              <div v-for="i in 20" :key="i" class="field-particle"/>
             </div>
           </div>
           <div class="dimension-info">
@@ -218,7 +220,7 @@ const resendOtp = async () => {
             </div>
             <div class="dimension-button order-button disabled-button">
               <span>COMING SOON</span>
-              <div class="button-scanner"></div>
+              <div class="button-scanner"/>
             </div>
           </div>
         </div>
@@ -226,19 +228,19 @@ const resendOtp = async () => {
         <!-- Chaos Dimension -->
         <div class="dimension-portal chaos-dimension" @click="enterDimension('chaos')">
           <div class="portal-housing">
-            <div class="housing-frame chaos-frame"></div>
+            <div class="housing-frame chaos-frame"/>
             <div class="portal-core chaos-core">
               <div class="core-distortion">
-                <div class="distortion-wave" v-for="i in 8" :key="i"></div>
+                <div v-for="i in 8" :key="i" class="distortion-wave"/>
               </div>
               <div class="core-center">
                 <div class="quantum-symbol chaos-symbol">
-                  <div class="symbol-fragment" v-for="i in 16" :key="i"></div>
+                  <div v-for="i in 16" :key="i" class="symbol-fragment"/>
                 </div>
               </div>
             </div>
             <div class="portal-field chaos-field">
-              <div class="field-anomaly" v-for="i in 25" :key="i"></div>
+              <div v-for="i in 25" :key="i" class="field-anomaly"/>
             </div>
           </div>
           <div class="dimension-info">
@@ -259,7 +261,7 @@ const resendOtp = async () => {
             </div>
             <div class="dimension-button chaos-button">
               <span>ENTER KUSAMA</span>
-              <div class="button-glitch-effect"></div>
+              <div class="button-glitch-effect"/>
             </div>
           </div>
         </div>
@@ -269,14 +271,14 @@ const resendOtp = async () => {
     <!-- Quantum Transition -->
     <div v-if="isTransitioning" class="quantum-transition" :class="selectedDimension + '-quantum'">
       <div class="quantum-tunnel">
-        <div class="tunnel-ring" v-for="i in 15" :key="i"></div>
+        <div v-for="i in 15" :key="i" class="tunnel-ring"/>
       </div>
       <div class="transition-data">
         <h2 class="transition-title">
           CONNECTING TO NETWORK
         </h2>
         <div class="data-stream">
-          <div class="data-line" v-for="i in 8" :key="i">
+          <div v-for="i in 8" :key="i" class="data-line">
             <span class="data-label">{{ 
               ['VALIDATORS', 'PARACHAINS', 'COLLATORS', 'NOMINATORS', 'BLOCK HEIGHT', 'ERA', 'SESSION', 'EPOCH'][i-1] 
             }}:</span>
@@ -285,7 +287,7 @@ const resendOtp = async () => {
         </div>
         <div class="quantum-progress">
           <div class="progress-bar">
-            <div class="progress-fill quantum-fill"></div>
+            <div class="progress-fill quantum-fill"/>
           </div>
           <span class="progress-text">NETWORK CONNECTION: ESTABLISHED</span>
         </div>
@@ -310,8 +312,8 @@ const resendOtp = async () => {
               class="access-input"
               :class="selectedDimension + '-input'"
               placeholder="user@example.com"
-              @keyup.enter="submitEmail"
               :disabled="isSubmittingEmail"
+              @keyup.enter="submitEmail"
             >
           </div>
 
@@ -331,16 +333,16 @@ const resendOtp = async () => {
                 :class="selectedDimension + '-input'"
                 placeholder="000000"
                 maxlength="6"
-                @keyup.enter="verifyOtp"
                 :disabled="isVerifyingOtp"
+                @keyup.enter="verifyOtp"
               >
             </div>
 
             <div class="otp-actions">
               <button
                 class="resend-button"
-                @click="resendOtp"
                 :disabled="isSubmittingEmail"
+                @click="resendOtp"
               >
                 RESEND CODE
               </button>
@@ -358,8 +360,8 @@ const resendOtp = async () => {
             v-if="!showOtpInput"
             class="access-button"
             :class="selectedDimension + '-button'"
-            @click="submitEmail"
             :disabled="isSubmittingEmail || !userEmail"
+            @click="submitEmail"
           >
             <span v-if="!isSubmittingEmail">SEND ACCESS CODE</span>
             <span v-else>SENDING...</span>
@@ -369,8 +371,8 @@ const resendOtp = async () => {
             v-else
             class="access-button"
             :class="selectedDimension + '-button'"
-            @click="verifyOtp"
             :disabled="isVerifyingOtp || !otpCode"
+            @click="verifyOtp"
           >
             <span v-if="!isVerifyingOtp">VERIFY & ENTER</span>
             <span v-else>VERIFYING...</span>
