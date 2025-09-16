@@ -1,6 +1,4 @@
 import crypto from 'crypto'
-import nodemailer from 'nodemailer'
-import nodemailerSendgrid from 'nodemailer-sendgrid'
 import * as v from 'valibot'
 import { otpStore, cleanExpiredOtps } from '../../utils/otp-store'
 
@@ -61,6 +59,7 @@ export default defineEventHandler(async (event) => {
   })
 
   const sendGridApiKey = process.env.SENDGRID_API_KEY
+
   if (!sendGridApiKey) {
     console.log(`[DEV MODE] OTP for ${email}: ${otp}`)
     return {
@@ -69,71 +68,94 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const transporter = nodemailer.createTransport(
-    nodemailerSendgrid({
-      apiKey: sendGridApiKey
-    })
-  )
-
+  // Use SendGrid API directly instead of nodemailer
   try {
-    await transporter.sendMail({
-      from: process.env.SENDGRID_FROM_EMAIL || 'no-reply@dotspark.app',
-      to: email,
-      subject: '⛓️ Your Polkadot Ideas Hub Access Code',
-      html: `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        </head>
-        <body style="margin: 0; padding: 0; background-color: #0a0a0a;">
-          <table cellpadding="0" cellspacing="0" width="100%" style="min-height: 100vh; background-color: #0a0a0a;">
-            <tr>
-              <td align="center" style="padding: 40px 20px;">
-                <table cellpadding="0" cellspacing="0" width="600" style="max-width: 600px;">
+    const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${sendGridApiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        personalizations: [{
+          to: [{ email }]
+        }],
+        from: {
+          email: process.env.SENDGRID_FROM_EMAIL || 'no-reply@dotspark.app'
+        },
+        subject: '⛓️ Your Polkadot Ideas Hub Access Code',
+        content: [
+          {
+            type: 'text/plain',
+            value: `POLKADOT NETWORK ACCESS\n\nYour Validator Access Code: ${otp}\n\nThis code will expire in 10 minutes.\n\nIf you did not request this code, no action is required.`
+          },
+          {
+            type: 'text/html',
+            value: `
+              <!DOCTYPE html>
+              <html lang="en">
+              <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              </head>
+              <body style="margin: 0; padding: 0; background-color: #0a0a0a;">
+                <table cellpadding="0" cellspacing="0" width="100%" style="min-height: 100vh; background-color: #0a0a0a;">
                   <tr>
-                    <td style="background: linear-gradient(135deg, #000 0%, #1a000a 50%, #330016 100%); padding: 40px; border-radius: 10px; border: 2px solid #FF2670; box-shadow: 0 0 30px rgba(255, 38, 112, 0.3);">
-                      <h1 style="font-family: 'Courier New', monospace; text-align: center; color: #FF2670; font-size: 28px; margin: 0 0 30px 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px #FF2670;">
-                        POLKADOT NETWORK ACCESS
-                      </h1>
-
-                      <div style="background: rgba(0, 0, 0, 0.6); border: 2px solid #FF2670; border-radius: 8px; padding: 30px; margin: 20px 0; text-align: center;">
-                        <p style="font-family: 'Courier New', monospace; color: #FF2670; font-size: 14px; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px;">
-                          Your Validator Access Code:
-                        </p>
-                        <div style="font-family: 'Courier New', monospace; font-size: 36px; letter-spacing: 10px; color: #FF2670; font-weight: bold; text-shadow: 0 0 10px #FF2670; padding: 15px; background: #000; border-radius: 4px; display: inline-block;">
-                          ${otp}
-                        </div>
-                      </div>
-
-                      <table cellpadding="0" cellspacing="0" width="100%" style="margin: 20px 0;">
+                    <td align="center" style="padding: 40px 20px;">
+                      <table cellpadding="0" cellspacing="0" width="600" style="max-width: 600px;">
                         <tr>
-                          <td style="font-family: 'Courier New', monospace; color: #888; font-size: 12px; line-height: 18px;">
-                            <p style="margin: 10px 0;">⛓️ BLOCK VALIDITY: 10 MINUTES</p>
-                            <p style="margin: 10px 0;">🔐 SECURITY: CRYPTOGRAPHICALLY SIGNED</p>
-                            <p style="margin: 10px 0;">🚀 ACCESS: KUSAMA PORTAL</p>
+                          <td style="background: linear-gradient(135deg, #000 0%, #1a000a 50%, #330016 100%); padding: 40px; border-radius: 10px; border: 2px solid #FF2670; box-shadow: 0 0 30px rgba(255, 38, 112, 0.3);">
+                            <h1 style="font-family: 'Courier New', monospace; text-align: center; color: #FF2670; font-size: 28px; margin: 0 0 30px 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px #FF2670;">
+                              POLKADOT NETWORK ACCESS
+                            </h1>
+
+                            <div style="background: rgba(0, 0, 0, 0.6); border: 2px solid #FF2670; border-radius: 8px; padding: 30px; margin: 20px 0; text-align: center;">
+                              <p style="font-family: 'Courier New', monospace; color: #FF2670; font-size: 14px; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px;">
+                                Your Validator Access Code:
+                              </p>
+                              <div style="font-family: 'Courier New', monospace; font-size: 36px; letter-spacing: 10px; color: #FF2670; font-weight: bold; text-shadow: 0 0 10px #FF2670; padding: 15px; background: #000; border-radius: 4px; display: inline-block;">
+                                ${otp}
+                              </div>
+                            </div>
+
+                            <table cellpadding="0" cellspacing="0" width="100%" style="margin: 20px 0;">
+                              <tr>
+                                <td style="font-family: 'Courier New', monospace; color: #888; font-size: 12px; line-height: 18px;">
+                                  <p style="margin: 10px 0;">⛓️ BLOCK VALIDITY: 10 MINUTES</p>
+                                  <p style="margin: 10px 0;">🔐 SECURITY: CRYPTOGRAPHICALLY SIGNED</p>
+                                  <p style="margin: 10px 0;">🚀 ACCESS: KUSAMA PORTAL</p>
+                                </td>
+                              </tr>
+                            </table>
+
+                            <hr style="border: none; border-top: 1px solid #330016; margin: 30px 0;">
+
+                            <p style="font-family: 'Courier New', monospace; text-align: center; color: #666; font-size: 11px; margin: 0;">
+                              If you did not request this code, no action is required.<br>
+                              This access code will be finalized after expiration.
+                            </p>
                           </td>
                         </tr>
                       </table>
-
-                      <hr style="border: none; border-top: 1px solid #330016; margin: 30px 0;">
-
-                      <p style="font-family: 'Courier New', monospace; text-align: center; color: #666; font-size: 11px; margin: 0;">
-                        If you did not request this code, no action is required.<br>
-                        This access code will be finalized after expiration.
-                      </p>
                     </td>
                   </tr>
                 </table>
-              </td>
-            </tr>
-          </table>
-        </body>
-        </html>
-      `,
-      text: `POLKADOT NETWORK ACCESS\n\nYour Validator Access Code: ${otp}\n\nThis code will expire in 10 minutes.\n\nIf you did not request this code, no action is required.`
+              </body>
+              </html>
+            `
+          }
+        ]
+      })
     })
+
+    if (!response.ok) {
+      const error = await response.text()
+      console.error('SendGrid API error:', error)
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Failed to send OTP email'
+      })
+    }
 
     return {
       success: true,
@@ -147,4 +169,3 @@ export default defineEventHandler(async (event) => {
     })
   }
 })
-
