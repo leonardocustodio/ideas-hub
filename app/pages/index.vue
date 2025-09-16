@@ -28,13 +28,21 @@ const ideas = computed(() => {
     });
   } else if (selectedTimeRange.value === 'Trending') {
     // Sort by recent votes (most votes in last 7 days first)
+    // If recent votes are the same, sort by creation date (newest first)
     return sortedIdeas.sort((a, b) => {
-      return (b.recentVotes || 0) - (a.recentVotes || 0);
+      const voteDiff = (b.recentVotes || 0) - (a.recentVotes || 0);
+      if (voteDiff !== 0) return voteDiff;
+
+      const aDate = typeof a.createdAt === 'string' ? new Date(a.createdAt) : a.createdAt;
+      const bDate = typeof b.createdAt === 'string' ? new Date(b.createdAt) : b.createdAt;
+      return bDate.getTime() - aDate.getTime();
     });
   } else {
-    // All: sort by total votes (highest first)
+    // All: sorts by total votes (highest first)
     return sortedIdeas.sort((a, b) => {
-      return (b.votes || 0) - (a.votes || 0);
+      const voteDiff = (b.votes || 0) - (a.votes || 0);
+      if (voteDiff !== 0) return voteDiff;
+      return a.id - b.id;
     });
   }
 });
@@ -44,10 +52,8 @@ const openSubmissionForm = () => {
   const hasSeenInstructions = import.meta.client ? localStorage.getItem('hasSeenInstructions') : false;
 
   if (hasSeenInstructions) {
-    // Skip instructions and go directly to submit form
     navigateTo('/submit');
   } else {
-    // Show instructions for the first time
     navigateTo('/instructions');
   }
 };
