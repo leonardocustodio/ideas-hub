@@ -58,6 +58,13 @@ export default eventHandler(async (event) => {
     .where(eq(tables.images.ideaId, ideaId))
     .all();
 
+  // Get vote count for this idea
+  const votes = await db
+    .select()
+    .from(tables.votes)
+    .where(eq(tables.votes.ideaId, ideaId))
+    .all();
+
   // Combine everything
   return {
     id: ideaWithAuthor.id,
@@ -68,6 +75,7 @@ export default eventHandler(async (event) => {
     icon: ideaWithAuthor.icon,
     video: ideaWithAuthor.video,
     views: ideaWithAuthor.views || 0,
+    votes: votes.length,
     createdAt: ideaWithAuthor.createdAt,
     author: ideaWithAuthor.authorName || 'Anonymous',
     tags: tags.map(t => t.tag),

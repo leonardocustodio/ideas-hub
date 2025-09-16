@@ -40,6 +40,20 @@ export default eventHandler(async () => {
     .from(tables.images)
     .all();
 
+  // Get vote counts for all ideas
+  const voteCounts = await db
+    .select({
+      ideaId: tables.votes.ideaId
+    })
+    .from(tables.votes)
+    .all();
+
+  // Count votes per idea
+  const votesByIdea = voteCounts.reduce((acc, vote) => {
+    acc[vote.ideaId] = (acc[vote.ideaId] || 0) + 1;
+    return acc;
+  }, {} as Record<number, number>);
+
   // Group tags and images by ideaId
   const tagsByIdea = tags.reduce((acc, tag) => {
     if (!acc[tag.ideaId]) acc[tag.ideaId] = [];
@@ -63,6 +77,7 @@ export default eventHandler(async () => {
     icon: idea.icon,
     video: idea.video,
     views: idea.views || 0,
+    votes: votesByIdea[idea.id] || 0,
     createdAt: idea.createdAt,
     author: idea.authorName || 'Anonymous',
     tags: tagsByIdea[idea.id] || [],

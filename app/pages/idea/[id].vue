@@ -14,7 +14,9 @@ const id = computed(() => route.params.id as string);
 // Fetch all ideas and the specific idea
 const { data: allIdeas } = await useFetch<IdeaWithDetails[]>('/api/ideas');
 const { data: currentIdea } = await useFetch<IdeaWithDetails>(`/api/ideas/${id.value}`);
+const { data: commentCount } = await useFetch(`/api/ideas/${id.value}/comments-count`);
 
+// Track page view (only once per session per idea)
 watch(id, async (newId) => {
   if (newId) {
     await trackView(newId);
@@ -24,19 +26,14 @@ watch(id, async (newId) => {
 // Add client-side fields
 const allIdeasWithClientFields = computed((): IdeaWithDetails[] => {
   if (!allIdeas.value) return [];
-  return allIdeas.value.map(idea => ({
-    ...idea,
-    votes: 0,
-    hasVoted: false
-  }));
+  return allIdeas.value;
 });
 
 const idea = computed((): IdeaWithDetails | undefined => {
   if (!currentIdea.value) return undefined;
   return {
     ...currentIdea.value,
-    votes: 0,
-    hasVoted: false
+    commentsCount: commentCount.value?.count || 0
   };
 });
 

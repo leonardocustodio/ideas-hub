@@ -1,15 +1,35 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue';
 import IconUpvote from "~/components/icon/IconUpvote.vue";
 import IconComment from "~/components/icon/IconComment.vue";
 
-defineProps<{
+const props = defineProps<{
   idea: Idea;
   index: number;
 }>();
 
-const handleVote = (ideaId: string) => {
-  // TODO: Implement vote functionality with API
-  console.log('Vote for idea:', ideaId);
+const { voteForIdea, hasVoted } = useVoting();
+
+const isVoting = ref(false);
+const localVotes = ref(props.idea.votes || 0);
+const localHasVoted = computed(() => hasVoted(props.idea.id));
+
+const handleVote = async () => {
+  if (isVoting.value) return;
+
+  isVoting.value = true;
+  try {
+    const voted = await voteForIdea(props.idea.id);
+
+    // Update local vote count
+    if (voted) {
+      localVotes.value++;
+    } else {
+      localVotes.value = Math.max(0, localVotes.value - 1);
+    }
+  } finally {
+    isVoting.value = false;
+  }
 };
 
 const goToIdea = (ideaId: string) => {
@@ -39,7 +59,7 @@ const goToIdea = (ideaId: string) => {
             <span class="group-hover:text-cyber-glow">{{ idea.name }}</span>
           </h3>
           <p class="text-text-primary leading-relaxed text-sm">
-            {{ idea.description }}
+            {{ idea.tagline }}
           </p>
         </div>
       </div>
@@ -73,15 +93,16 @@ const goToIdea = (ideaId: string) => {
       <button
         class="flex-1 flex flex-col items-center justify-center transition-all duration-300 group/vote"
         :class="[
-          idea.hasVoted
+          localHasVoted
             ? 'bg-polkadot-pink text-white border-polkadot-pink'
             : 'text-text-secondary hover:text-cyber-blue hover:bg-cyber-blue/10'
         ]"
-        @click="handleVote(idea.id)"
+        :disabled="isVoting"
+        @click="handleVote"
       >
         <IconUpvote class="size-5 mb-1 group-hover/vote:animate-cyber-pulse" />
-        <span class="text-xs font-bold">{{ idea.votes }}</span>
-        <span class="text-xs opacity-60">VOTE</span>
+        <span class="text-xs font-bold">{{ localVotes }}</span>
+        <span class="text-xs opacity-60">{{ isVoting ? 'WAIT' : 'VOTE' }}</span>
       </button>
 
       <div class="h-px bg-cyber-blue/30"/>

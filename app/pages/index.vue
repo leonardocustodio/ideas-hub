@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import type { IdeaWithDetails } from '~/types';
 
 const selectedTimeRange = ref('Latest');
 const { data: dbIdeas, pending } = await useFetch<IdeaWithDetails[]>('/api/ideas');
+const { initializeVoting } = useVoting();
 
-// Add client-side fields
+// Initialize voting on mount
+onMounted(async () => {
+  await initializeVoting();
+});
+
+// Remove the client-side override for votes
 const ideasWithClientFields = computed((): IdeaWithDetails[] => {
   if (!dbIdeas.value) return [];
-
-  return dbIdeas.value.map((idea) => ({
-    ...idea,
-    votes: 0,
-    hasVoted: false
-  }));
+  return dbIdeas.value;
 });
 
 const ideas = computed(() => {

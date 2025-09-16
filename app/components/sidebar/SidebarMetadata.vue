@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import IconUser from "~/components/icon/IconUser.vue";
 import IconEye from "~/components/icon/IconEye.vue";
+import IconComment from "~/components/icon/IconComment.vue";
 import IconClock from "~/components/icon/IconClock.vue";
 
 interface Props {
@@ -33,6 +34,10 @@ const getRelativeTime = (date: Date | string): string => {
       <div class="flex items-center space-x-3">
         <IconEye class="w-4 h-4 text-cyber-pink" />
         <span>{{ idea.views || 0 }} views</span>
+      </div>
+      <div class="flex items-center space-x-3">
+        <IconComment class="w-4 h-4 text-cyber-pink" />
+        <span>{{ idea.commentsCount || 0 }} comments</span>
       </div>
       <div class="flex items-center space-x-3">
         <IconClock class="w-4 h-4 text-cyber-pink" />
