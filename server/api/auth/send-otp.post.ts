@@ -2,7 +2,7 @@ import crypto from 'crypto'
 import nodemailer from 'nodemailer'
 import nodemailerSendgrid from 'nodemailer-sendgrid'
 import * as v from 'valibot'
-import { otpStore } from '../../utils/otp-store'
+import { otpStore, cleanExpiredOtps } from '../../utils/otp-store'
 
 const createEmailValidator = () => {
   const allowedDomain = process.env.ALLOWED_EMAIL_DOMAIN
@@ -34,6 +34,8 @@ const SendOtpSchema = v.object({
 })
 
 export default defineEventHandler(async (event) => {
+  cleanExpiredOtps()
+
   const body = await readBody(event)
 
   let validatedData

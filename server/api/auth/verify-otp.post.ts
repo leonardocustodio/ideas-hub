@@ -1,5 +1,5 @@
 import * as v from 'valibot'
-import { otpStore } from '../../utils/otp-store'
+import { otpStore, cleanExpiredOtps } from '../../utils/otp-store'
 
 const VerifyOtpSchema = v.object({
   email: v.pipe(
@@ -20,6 +20,8 @@ const VerifyOtpSchema = v.object({
 })
 
 export default defineEventHandler(async (event) => {
+  cleanExpiredOtps()
+
   const body = await readBody(event)
 
   let validatedData
