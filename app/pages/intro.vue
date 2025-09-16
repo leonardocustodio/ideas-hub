@@ -487,11 +487,29 @@ const resendOtp = async () => {
 .bottom-left { bottom: 20px; left: 20px; }
 .bottom-right { bottom: 20px; right: 20px; flex-direction: row-reverse; }
 
+@media (max-width: 768px) {
+  .hud-corner {
+    gap: 5px;
+  }
+  .top-left { top: 10px; left: 10px; }
+  .top-right { top: 10px; right: 10px; }
+  .bottom-left { bottom: 10px; left: 10px; }
+  .bottom-right { bottom: 10px; right: 10px; }
+}
+
 .corner-bracket {
   width: 30px;
   height: 30px;
   border: 2px solid #FF2670;
   position: relative;
+}
+
+@media (max-width: 768px) {
+  .corner-bracket {
+    width: 20px;
+    height: 20px;
+    border-width: 1px;
+  }
 }
 
 .top-left .corner-bracket { border-right: none; border-bottom: none; }
@@ -507,6 +525,12 @@ const resendOtp = async () => {
   text-shadow: 0 0 5px #FF2670;
 }
 
+@media (max-width: 768px) {
+  .hud-text {
+    font-size: 0.6rem;
+  }
+}
+
 .central-interface {
   position: absolute;
   top: 50%;
@@ -514,10 +538,25 @@ const resendOtp = async () => {
   transform: translate(-50%, -50%);
   text-align: center;
   z-index: 20;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .central-interface {
+    padding: 0 0.5rem;
+  }
 }
 
 .phase-display {
   margin-bottom: 4rem;
+}
+
+@media (max-width: 768px) {
+  .phase-display {
+    margin-bottom: 3rem;
+  }
 }
 
 .phase-text {
@@ -526,6 +565,12 @@ const resendOtp = async () => {
   margin-bottom: 1rem;
   text-shadow: 0 0 10px #FF2670;
   animation: textFlicker 0.5s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .phase-text {
+    font-size: 1.2rem;
+  }
 }
 
 @keyframes textFlicker {
@@ -556,6 +601,18 @@ const resendOtp = async () => {
   gap: 6rem;
   align-items: center;
   animation: portalAppear 1s ease-out;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  .portal-array {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0 0.5rem;
+  }
 }
 
 @keyframes portalAppear {
@@ -565,8 +622,16 @@ const resendOtp = async () => {
 
 .dimension-portal {
   width: 350px;
+  max-width: 100%;
   cursor: pointer;
   transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .dimension-portal {
+    width: 100%;
+    max-width: 320px;
+  }
 }
 
 .dimension-portal:hover:not(.disabled-dimension) {
@@ -577,6 +642,12 @@ const resendOtp = async () => {
 .disabled-dimension {
   opacity: 0.5;
   filter: grayscale(100%);
+}
+
+@media (max-width: 768px) {
+  .disabled-dimension {
+    display: none;
+  }
 }
 
 /* Override colors for disabled order dimension */
@@ -615,6 +686,14 @@ const resendOtp = async () => {
   width: 200px;
   height: 200px;
   margin: 0 auto 2rem;
+}
+
+@media (max-width: 768px) {
+  .portal-housing {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1.5rem;
+  }
 }
 
 .housing-frame {
@@ -789,6 +868,13 @@ const resendOtp = async () => {
   font-family: 'Orbitron', monospace;
 }
 
+@media (max-width: 768px) {
+  .dimension-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
 .order-dimension .dimension-title {
   color: #FF2670;
   text-shadow: 0 0 10px #FF2670;
@@ -805,11 +891,24 @@ const resendOtp = async () => {
   display: inline-block;
 }
 
+@media (max-width: 768px) {
+  .dimension-stats {
+    margin-bottom: 1.5rem;
+  }
+}
+
 .stat-line {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .stat-line {
+    font-size: 0.8rem;
+    margin-bottom: 0.4rem;
+  }
 }
 
 .stat-label {
@@ -836,6 +935,13 @@ const resendOtp = async () => {
   letter-spacing: 0.1em;
   transition: all 0.3s ease;
   overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .dimension-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
 }
 
 .order-button {
