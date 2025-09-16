@@ -85,7 +85,7 @@ const goToNext = () => {
   }
 };
 
-const handleVote = () => {
+// Initialize voting and redirect if needed
 onMounted(async () => {
   if (!idea.value) {
     navigateTo('/');

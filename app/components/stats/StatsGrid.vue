@@ -16,7 +16,7 @@ onMounted(() => {
 });
 
 const totalIdeas = computed(() => stats.value?.totalIdeas || 0);
-const totalVotes = computed(() => stats.value?.totalVotes || 0);
+// Use reactive vote count that updates when users vote
 const totalVotes = computed(() => totalVotesCount.value);
 const activeContributors = computed(() => stats.value?.totalBuilders || 0);
 const totalComments = computed(() => stats.value?.totalComments || 0);
