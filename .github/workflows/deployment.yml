@@ -1,10 +1,10 @@
-name: Deploy to NuxtHub
+name: NuxtHub
 on:
   push:
 
 jobs:
   deploy:
-    name: "Deploy to NuxtHub"
+    name: ${{ github.ref == 'refs/heads/main' && 'Deploy production' || 'Deploy preview' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
