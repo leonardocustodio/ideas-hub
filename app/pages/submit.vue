@@ -2,19 +2,16 @@
 import type { IdeaFormData } from '~/types';
 
 const handleSubmit = async (formData: IdeaFormData) => {
-  // Process tags
   const processedTags = formData.tags
     ? formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
     : [];
 
-  // Process links
   const processedLinks = formData.links ? formData.links.split('\n').filter(link => link.trim()) : [];
 
   let iconUrl = null;
   let galleryUrls: string[] = [];
 
   try {
-    // Upload thumbnail if provided
     if (formData.thumbnail) {
       const thumbnailFormData = new FormData();
       thumbnailFormData.append('file', formData.thumbnail);
@@ -23,9 +20,6 @@ const handleSubmit = async (formData: IdeaFormData) => {
         method: 'POST',
         body: thumbnailFormData
       });
-
-      console.log('Upload result:', uploadResult);
-      // Now the API always returns a single object for single file uploads
       if (uploadResult && uploadResult.pathname) {
         iconUrl = `/api/blob/${uploadResult.pathname}`;
       } else {
@@ -33,7 +27,6 @@ const handleSubmit = async (formData: IdeaFormData) => {
       }
     }
 
-    // Upload gallery images if provided
     if (formData.gallery && formData.gallery.length > 0) {
       const galleryFormData = new FormData();
       formData.gallery.forEach(file => {
@@ -44,9 +37,6 @@ const handleSubmit = async (formData: IdeaFormData) => {
         method: 'POST',
         body: galleryFormData
       });
-
-      console.log('Gallery upload results:', galleryResults);
-      // When multiple: true, handleUpload returns an array
       if (Array.isArray(galleryResults)) {
         galleryUrls = galleryResults.map((result) => `/api/blob/${result.pathname}`);
       } else {
@@ -54,7 +44,6 @@ const handleSubmit = async (formData: IdeaFormData) => {
       }
     }
 
-    // Prepare data for database
     const ideaData = {
       author: formData.isAnonymous ? 'Anonymous' : formData.authorName,
       name: formData.name,
@@ -67,13 +56,11 @@ const handleSubmit = async (formData: IdeaFormData) => {
       images: galleryUrls.length > 0 ? galleryUrls : null
     };
 
-    // Save to database
     await $fetch('/api/ideas', {
       method: 'POST',
       body: ideaData
     });
 
-    // Navigate back to home
     navigateTo('/');
   } catch (error) {
     console.error('Failed to add idea:', error);

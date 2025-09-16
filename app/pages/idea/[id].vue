@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, watch, onMounted } from 'vue';
 import MediaContainer from "~/components/media/MediaContainer.vue";
 import CommentsContainer from "~/components/comments/CommentsContainer.vue";
 import ReferenceContainer from "~/components/ReferenceContainer.vue";
@@ -7,29 +7,41 @@ import InfoContainer from "~/components/InfoContainer.vue";
 import type { IdeaWithDetails } from '~/types';
 
 const route = useRoute();
+const { trackView } = useViewTracking();
+const { initializeVoting } = useVoting();
 
 const id = computed(() => route.params.id as string);
 
 // Fetch all ideas and the specific idea
 const { data: allIdeas } = await useFetch<IdeaWithDetails[]>('/api/ideas');
 const { data: currentIdea } = await useFetch<IdeaWithDetails>(`/api/ideas/${id.value}`);
+const { data: commentCount } = await useFetch(`/api/ideas/${id.value}/comments-count`);
+const localViewCount = ref(0);
+
+// Track page view
+watch(id, async (newId) => {
+  if (newId) {
+    const tracked = await trackView(newId);
+    if (tracked && currentIdea.value) {
+      localViewCount.value = (currentIdea.value.views || 0) + 1;
+    } else if (currentIdea.value) {
+      localViewCount.value = currentIdea.value.views || 0;
+    }
+  }
+}, { immediate: true });
 
 // Add client-side fields
 const allIdeasWithClientFields = computed((): IdeaWithDetails[] => {
   if (!allIdeas.value) return [];
-  return allIdeas.value.map(idea => ({
-    ...idea,
-    votes: 0,
-    hasVoted: false
-  }));
+  return allIdeas.value;
 });
 
 const idea = computed((): IdeaWithDetails | undefined => {
   if (!currentIdea.value) return undefined;
   return {
     ...currentIdea.value,
-    votes: 0,
-    hasVoted: false
+    views: localViewCount.value || currentIdea.value.views || 0,
+    commentsCount: commentCount.value?.count || 0
   };
 });
 
@@ -45,7 +57,7 @@ const previousIdea = computed(() => {
   if (index > 0) {
     return allIdeasWithClientFields.value[index - 1];
   }
-  // Wrap to last item when at first
+  // Go to the last item when at the beginning
   return allIdeasWithClientFields.value[totalIdeas - 1];
 });
 
@@ -57,7 +69,7 @@ const nextIdea = computed(() => {
   if (index >= 0 && index < totalIdeas - 1) {
     return allIdeasWithClientFields.value[index + 1];
   }
-  // Wrap to first item when at last
+  // Go to the first item when at the end
   return allIdeasWithClientFields.value[0];
 });
 
@@ -73,17 +85,12 @@ const goToNext = () => {
   }
 };
 
-const handleVote = () => {
-  if (idea.value) {
-    // TODO: Implement vote functionality with API
-    console.log('Vote for idea:', idea.value.id);
-  }
-};
-
-// Redirect to home if idea not found
-onMounted(() => {
+// Initialize voting and redirect if needed
+onMounted(async () => {
   if (!idea.value) {
     navigateTo('/');
+  } else {
+    await initializeVoting();
   }
 });
 </script>
@@ -117,7 +124,6 @@ onMounted(() => {
           :next-idea="nextIdea"
           @go-previous="goToPrevious"
           @go-next="goToNext"
-          @vote="handleVote"
         />
       </div>
     </AppContainer>

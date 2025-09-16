@@ -1,17 +1,25 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import IconLightbulb from "~/components/icon/IconLightbulb.vue";
 import IconUpvote from "~/components/icon/IconUpvote.vue";
 import IconUsers from "~/components/icon/IconUsers.vue";
 import IconComment from "~/components/icon/IconComment.vue";
 
-// Fetch ideas from database to get stats
-const { data: ideas } = await useFetch('/api/ideas');
+// Fetch actual stats from database
+const { data: stats } = await useFetch('/api/stats');
+const { totalVotesCount, setTotalVotesCount } = useVoting();
 
-const totalIdeas = computed(() => ideas.value?.length || 0);
-const totalVotes = computed(() => ideas.value?.reduce((sum, idea) => sum + (idea.votes || 0), 0) || 0);
-const activeContributors = computed(() => Math.floor(totalIdeas.value * 0.7));
-const totalComments = computed(() => Math.floor(totalIdeas.value * 1.3));
+onMounted(() => {
+  if (stats.value?.totalVotes) {
+    setTotalVotesCount(stats.value.totalVotes);
+  }
+});
+
+const totalIdeas = computed(() => stats.value?.totalIdeas || 0);
+// Use reactive vote count that updates when users vote
+const totalVotes = computed(() => totalVotesCount.value);
+const activeContributors = computed(() => stats.value?.totalBuilders || 0);
+const totalComments = computed(() => stats.value?.totalComments || 0);
 </script>
 
 <template>

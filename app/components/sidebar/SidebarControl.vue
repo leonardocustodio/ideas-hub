@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue';
 import IconArrowLeft from "~/components/icon/IconArrowLeft.vue";
 import IconArrowRight from "~/components/icon/IconArrowRight.vue";
 import IconUpvote from "~/components/icon/IconUpvote.vue";
@@ -9,13 +10,36 @@ interface Props {
   nextIdea: Idea | null;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const emit = defineEmits<{
   'go-previous': [];
   'go-next': [];
-  'vote': [];
 }>();
+
+const { voteForIdea, hasVoted } = useVoting();
+
+const isVoting = ref(false);
+const localVotes = ref(props.idea.votes || 0);
+const localHasVoted = computed(() => hasVoted(props.idea.id));
+
+const handleVote = async () => {
+  if (isVoting.value) return;
+
+  isVoting.value = true;
+  try {
+    const voted = await voteForIdea(props.idea.id);
+
+    // Update local vote count
+    if (voted) {
+      localVotes.value++;
+    } else {
+      localVotes.value = Math.max(0, localVotes.value - 1);
+    }
+  } finally {
+    isVoting.value = false;
+  }
+};
 </script>
 
 <template>
@@ -43,13 +67,14 @@ const emit = defineEmits<{
       <!-- Vote Button -->
       <button
         class="w-full flex items-center justify-center space-x-2 py-2 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200"
-        :class="idea.hasVoted
+        :class="localHasVoted
           ? 'bg-polkadot-pink text-white border border-polkadot-pink'
           : 'text-cyber-green border border-cyber-green hover:bg-polkadot-pink hover:text-white hover:border-polkadot-pink'"
-        @click="emit('vote')"
+        :disabled="isVoting"
+        @click="handleVote"
       >
         <IconUpvote class="w-5 h-5" />
-        <span>{{ idea.votes }} upvotes</span>
+        <span>{{ localVotes }} {{ isVoting ? 'updating...' : 'upvotes' }}</span>
       </button>
     </div>
   </TerminalContainer>

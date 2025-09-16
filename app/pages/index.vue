@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import type { IdeaWithDetails } from '~/types';
 
 const selectedTimeRange = ref('Latest');
 const { data: dbIdeas, pending } = await useFetch<IdeaWithDetails[]>('/api/ideas');
+const { initializeVoting } = useVoting();
 
-// Add client-side fields
+onMounted(async () => {
+  await initializeVoting();
+});
+
 const ideasWithClientFields = computed((): IdeaWithDetails[] => {
   if (!dbIdeas.value) return [];
-
-  return dbIdeas.value.map((idea) => ({
-    ...idea,
-    votes: 0,
-    hasVoted: false
-  }));
+  return dbIdeas.value;
 });
 
 const ideas = computed(() => {
@@ -49,14 +48,14 @@ const ideas = computed(() => {
 });
 
 const openSubmissionForm = () => {
-  // Check if user has seen instructions before
-  const hasSeenInstructions = process.client ? localStorage.getItem('hasSeenInstructions') : false;
-  
+  // Check if a user has seen instructions before
+  const hasSeenInstructions = import.meta.client ? localStorage.getItem('hasSeenInstructions') : false;
+
   if (hasSeenInstructions) {
     // Skip instructions and go directly to submit form
     navigateTo('/submit');
   } else {
-    // Show instructions for first time
+    // Show instructions for the first time
     navigateTo('/instructions');
   }
 };
