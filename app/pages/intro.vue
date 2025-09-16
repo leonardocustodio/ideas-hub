@@ -148,19 +148,19 @@ const resendOtp = async () => {
     <div class="hud-elements">
       <div class="hud-corner top-left">
         <div class="corner-bracket"></div>
-        <span class="hud-text">QUANTUM.SYS</span>
+        <span class="hud-text">POLKADOT.NODE</span>
       </div>
       <div class="hud-corner top-right">
         <div class="corner-bracket"></div>
-        <span class="hud-text">v0.1.1</span>
+        <span class="hud-text">v0.1.0</span>
       </div>
       <div class="hud-corner bottom-left">
         <div class="corner-bracket"></div>
-        <span class="hud-text">SECURE</span>
+        <span class="hud-text">SYNCED</span>
       </div>
       <div class="hud-corner bottom-right">
         <div class="corner-bracket"></div>
-        <span class="hud-text">ONLINE</span>
+        <span class="hud-text">CONNECTED</span>
       </div>
     </div>
     
@@ -204,20 +204,20 @@ const resendOtp = async () => {
             <h3 class="dimension-title">DIMENSION α</h3>
             <div class="dimension-stats">
               <div class="stat-line">
-                <span class="stat-label">STABILITY:</span>
+                <span class="stat-label">FINALITY:</span>
                 <span class="stat-value order-stat">99.7%</span>
               </div>
               <div class="stat-line">
-                <span class="stat-label">ENTROPY:</span>
+                <span class="stat-label">VOLATILITY:</span>
                 <span class="stat-value order-stat">0.3%</span>
               </div>
               <div class="stat-line">
-                <span class="stat-label">TYPE:</span>
+                <span class="stat-label">NETWORK:</span>
                 <span class="stat-value order-stat">ORDERED</span>
               </div>
             </div>
             <div class="dimension-button order-button disabled-button">
-              <span>UNDER DEVELOPMENT</span>
+              <span>COMING SOON</span>
               <div class="button-scanner"></div>
             </div>
           </div>
@@ -245,20 +245,20 @@ const resendOtp = async () => {
             <h3 class="dimension-title">DIMENSION Ω</h3>
             <div class="dimension-stats">
               <div class="stat-line">
-                <span class="stat-label">STABILITY:</span>
+                <span class="stat-label">FINALITY:</span>
                 <span class="stat-value chaos-stat">12.4%</span>
               </div>
               <div class="stat-line">
-                <span class="stat-label">ENTROPY:</span>
+                <span class="stat-label">VOLATILITY:</span>
                 <span class="stat-value chaos-stat">87.6%</span>
               </div>
               <div class="stat-line">
-                <span class="stat-label">TYPE:</span>
+                <span class="stat-label">NETWORK:</span>
                 <span class="stat-value chaos-stat">CHAOTIC</span>
               </div>
             </div>
             <div class="dimension-button chaos-button">
-              <span>ENTER DIMENSION Ω</span>
+              <span>ENTER KUSAMA</span>
               <div class="button-glitch-effect"></div>
             </div>
           </div>
@@ -273,12 +273,12 @@ const resendOtp = async () => {
       </div>
       <div class="transition-data">
         <h2 class="transition-title">
-          QUANTUM TUNNELING IN PROGRESS
+          CONNECTING TO NETWORK
         </h2>
         <div class="data-stream">
           <div class="data-line" v-for="i in 8" :key="i">
             <span class="data-label">{{ 
-              ['COORDINATES', 'FREQUENCY', 'AMPLITUDE', 'PHASE', 'VECTOR', 'MATRIX', 'QUANTUM', 'REALITY'][i-1] 
+              ['VALIDATORS', 'PARACHAINS', 'COLLATORS', 'NOMINATORS', 'BLOCK HEIGHT', 'ERA', 'SESSION', 'EPOCH'][i-1] 
             }}:</span>
             <span class="data-value">{{ Math.random().toString(36).substr(2, 8).toUpperCase() }}</span>
           </div>
@@ -287,7 +287,7 @@ const resendOtp = async () => {
           <div class="progress-bar">
             <div class="progress-fill quantum-fill"></div>
           </div>
-          <span class="progress-text">DIMENSIONAL BREACH: COMPLETE</span>
+          <span class="progress-text">NETWORK CONNECTION: ESTABLISHED</span>
         </div>
       </div>
     </div>
@@ -296,8 +296,8 @@ const resendOtp = async () => {
     <div v-if="showEmailForm" class="email-access-form" :class="selectedDimension + '-themed'">
       <div class="access-container">
         <div class="access-header">
-          <h2 class="access-title">IDENTITY VERIFICATION REQUIRED</h2>
-          <p class="access-subtitle">Enter your credentials to access {{ selectedDimension === 'chaos' ? 'DIMENSION Ω' : 'DIMENSION α' }}</p>
+          <h2 class="access-title">NETWORK ACCESS VERIFICATION</h2>
+          <p class="access-subtitle">Enter your credentials to access</p>
         </div>
 
         <div class="access-form">
@@ -318,7 +318,7 @@ const resendOtp = async () => {
           <!-- OTP Input -->
           <div v-else class="otp-section">
             <div class="otp-header">
-              <p class="otp-info">VERIFICATION CODE SENT TO:</p>
+              <p class="otp-info">VALIDATOR ACCESS CODE SENT TO:</p>
               <p class="otp-email">{{ userEmail }}</p>
             </div>
 
@@ -377,8 +377,8 @@ const resendOtp = async () => {
           </button>
 
           <div class="security-notice">
-            <span class="notice-icon">🔒</span>
-            <span class="notice-text">SECURE QUANTUM TUNNEL</span>
+            <span class="notice-icon">⛓️</span>
+            <span class="notice-text">SECURE POLKADOT CONNECTION</span>
           </div>
         </div>
       </div>

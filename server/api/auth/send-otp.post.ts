@@ -79,7 +79,7 @@ export default defineEventHandler(async (event) => {
     await transporter.sendMail({
       from: process.env.SENDGRID_FROM_EMAIL || 'no-reply@dotspark.app',
       to: email,
-      subject: '🔐 Your Ideas Hub Quantum Access Code',
+      subject: '⛓️ Your Polkadot Ideas Hub Access Code',
       html: `
         <!DOCTYPE html>
         <html lang="en">
@@ -93,16 +93,16 @@ export default defineEventHandler(async (event) => {
               <td align="center" style="padding: 40px 20px;">
                 <table cellpadding="0" cellspacing="0" width="600" style="max-width: 600px;">
                   <tr>
-                    <td style="background: linear-gradient(135deg, #000 0%, #001a00 50%, #003300 100%); padding: 40px; border-radius: 10px; border: 2px solid #00ff00; box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);">
-                      <h1 style="font-family: 'Courier New', monospace; text-align: center; color: #00ff00; font-size: 28px; margin: 0 0 30px 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px #00ff00;">
-                        Quantum Access Portal
+                    <td style="background: linear-gradient(135deg, #000 0%, #1a000a 50%, #330016 100%); padding: 40px; border-radius: 10px; border: 2px solid #FF2670; box-shadow: 0 0 30px rgba(255, 38, 112, 0.3);">
+                      <h1 style="font-family: 'Courier New', monospace; text-align: center; color: #FF2670; font-size: 28px; margin: 0 0 30px 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px #FF2670;">
+                        POLKADOT NETWORK ACCESS
                       </h1>
 
-                      <div style="background: rgba(0, 0, 0, 0.6); border: 2px solid #00ff00; border-radius: 8px; padding: 30px; margin: 20px 0; text-align: center;">
-                        <p style="font-family: 'Courier New', monospace; color: #00ff00; font-size: 14px; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px;">
-                          Your Dimensional Access Code:
+                      <div style="background: rgba(0, 0, 0, 0.6); border: 2px solid #FF2670; border-radius: 8px; padding: 30px; margin: 20px 0; text-align: center;">
+                        <p style="font-family: 'Courier New', monospace; color: #FF2670; font-size: 14px; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px;">
+                          Your Validator Access Code:
                         </p>
-                        <div style="font-family: 'Courier New', monospace; font-size: 36px; letter-spacing: 10px; color: #00ff00; font-weight: bold; text-shadow: 0 0 10px #00ff00; padding: 15px; background: #000; border-radius: 4px; display: inline-block;">
+                        <div style="font-family: 'Courier New', monospace; font-size: 36px; letter-spacing: 10px; color: #FF2670; font-weight: bold; text-shadow: 0 0 10px #FF2670; padding: 15px; background: #000; border-radius: 4px; display: inline-block;">
                           ${otp}
                         </div>
                       </div>
@@ -110,18 +110,18 @@ export default defineEventHandler(async (event) => {
                       <table cellpadding="0" cellspacing="0" width="100%" style="margin: 20px 0;">
                         <tr>
                           <td style="font-family: 'Courier New', monospace; color: #888; font-size: 12px; line-height: 18px;">
-                            <p style="margin: 10px 0;">▸ CODE VALIDITY: 10 MINUTES</p>
-                            <p style="margin: 10px 0;">▸ SECURITY LEVEL: QUANTUM ENCRYPTED</p>
-                            <p style="margin: 10px 0;">▸ ACCESS TYPE: DIMENSIONAL PORTAL</p>
+                            <p style="margin: 10px 0;">⛓️ BLOCK VALIDITY: 10 MINUTES</p>
+                            <p style="margin: 10px 0;">🔐 SECURITY: CRYPTOGRAPHICALLY SIGNED</p>
+                            <p style="margin: 10px 0;">🚀 ACCESS: KUSAMA PORTAL</p>
                           </td>
                         </tr>
                       </table>
 
-                      <hr style="border: none; border-top: 1px solid #003300; margin: 30px 0;">
+                      <hr style="border: none; border-top: 1px solid #330016; margin: 30px 0;">
 
                       <p style="font-family: 'Courier New', monospace; text-align: center; color: #666; font-size: 11px; margin: 0;">
                         If you did not request this code, no action is required.<br>
-                        This message will self-destruct after code expiration.
+                        This access code will be finalized after expiration.
                       </p>
                     </td>
                   </tr>
@@ -132,7 +132,7 @@ export default defineEventHandler(async (event) => {
         </body>
         </html>
       `,
-      text: `QUANTUM ACCESS PORTAL\n\nYour Dimensional Access Code: ${otp}\n\nThis code will expire in 10 minutes.\n\nIf you did not request this code, no action is required.`
+      text: `POLKADOT NETWORK ACCESS\n\nYour Validator Access Code: ${otp}\n\nThis code will expire in 10 minutes.\n\nIf you did not request this code, no action is required.`
     })
 
     return {
