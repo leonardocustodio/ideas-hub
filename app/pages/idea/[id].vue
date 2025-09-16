@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, watch } from 'vue';
 import MediaContainer from "~/components/media/MediaContainer.vue";
 import CommentsContainer from "~/components/comments/CommentsContainer.vue";
 import ReferenceContainer from "~/components/ReferenceContainer.vue";
@@ -7,12 +7,19 @@ import InfoContainer from "~/components/InfoContainer.vue";
 import type { IdeaWithDetails } from '~/types';
 
 const route = useRoute();
+const { trackView } = useViewTracking();
 
 const id = computed(() => route.params.id as string);
 
 // Fetch all ideas and the specific idea
 const { data: allIdeas } = await useFetch<IdeaWithDetails[]>('/api/ideas');
 const { data: currentIdea } = await useFetch<IdeaWithDetails>(`/api/ideas/${id.value}`);
+
+watch(id, async (newId) => {
+  if (newId) {
+    await trackView(newId);
+  }
+}, { immediate: true });
 
 // Add client-side fields
 const allIdeasWithClientFields = computed((): IdeaWithDetails[] => {

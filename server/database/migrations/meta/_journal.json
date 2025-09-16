@@ -15,6 +15,13 @@
       "when": 1757879098816,
       "tag": "0001_pretty_layla_miller",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1758013407341,
+      "tag": "0002_many_wolf_cub",
+      "breakpoints": true
     }
   ]
 }

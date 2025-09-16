@@ -11,6 +11,8 @@ export const ideas = sqliteTable('ideas', {
   icon: text('icon'),
   video: text('video'),
   images: text('images', { mode: 'json' }),
+  // Stats
+  views: integer('views').notNull().default(0),
   // Relationship
   authorId: integer('author_id').references(() => authors.id).notNull(),
   // Metadata

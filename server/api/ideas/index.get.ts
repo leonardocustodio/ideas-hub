@@ -13,6 +13,7 @@ export default eventHandler(async () => {
       links: tables.ideas.links,
       icon: tables.ideas.icon,
       video: tables.ideas.video,
+      views: tables.ideas.views,
       createdAt: tables.ideas.createdAt,
       authorId: tables.ideas.authorId,
       authorName: tables.authors.name
@@ -61,6 +62,7 @@ export default eventHandler(async () => {
     links: idea.links,
     icon: idea.icon,
     video: idea.video,
+    views: idea.views || 0,
     createdAt: idea.createdAt,
     author: idea.authorName || 'Anonymous',
     tags: tagsByIdea[idea.id] || [],

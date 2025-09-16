@@ -32,7 +32,7 @@ const getRelativeTime = (date: Date | string): string => {
       </div>
       <div class="flex items-center space-x-3">
         <IconEye class="w-4 h-4 text-cyber-pink" />
-        <span>{{ Math.floor((idea.votes || 0) * 3.2) }} views</span>
+        <span>{{ idea.views || 0 }} views</span>
       </div>
       <div class="flex items-center space-x-3">
         <IconClock class="w-4 h-4 text-cyber-pink" />
