@@ -18,27 +18,27 @@ const props = withDefaults(defineProps<Props>(), {
 
 const clipPathStyle = computed(() => {
   const corners = props.clipCorners || [];
-  
+
   // Default: no clipping
   let polygon = '0 0, 100% 0, 100% 100%, 0 100%';
-  
+
   // Build polygon based on which corners to clip
   const clipSize = '15px';
   const hasTopLeft = corners.includes('ClipTopLeft');
   const hasTopRight = corners.includes('ClipTopRight');
   const hasBottomLeft = corners.includes('ClipBottomLeft');
   const hasBottomRight = corners.includes('ClipBottomRight');
-  
+
   // Build the polygon points
   const points: string[] = [];
-  
+
   // Top-left corner
   if (hasTopLeft) {
     points.push(`${clipSize} 0`);
   } else {
     points.push('0 0');
   }
-  
+
   // Top-right corner
   if (hasTopRight) {
     points.push(`calc(100% - ${clipSize}) 0`);
@@ -46,7 +46,7 @@ const clipPathStyle = computed(() => {
   } else {
     points.push('100% 0');
   }
-  
+
   // Bottom-right corner
   if (hasBottomRight) {
     points.push(`100% calc(100% - ${clipSize})`);
@@ -54,7 +54,7 @@ const clipPathStyle = computed(() => {
   } else {
     points.push('100% 100%');
   }
-  
+
   // Bottom-left corner
   if (hasBottomLeft) {
     points.push(`${clipSize} 100%`);
@@ -62,14 +62,14 @@ const clipPathStyle = computed(() => {
   } else {
     points.push('0 100%');
   }
-  
+
   // Top-left corner (closing the path)
   if (hasTopLeft) {
     points.push(`0 ${clipSize}`);
   }
-  
+
   polygon = points.join(', ');
-  
+
   return {
     clipPath: `polygon(${polygon})`
   };
@@ -86,7 +86,7 @@ const clipPathStyle = computed(() => {
       :title="headerTitle"
       :subtitle="headerSubtitle"
       :right-content="headerRightContent"
-      class="px-4 sm:px-6 lg:px-6 py-3"
+      class="px-3 sm:px-6 lg:px-6 py-2 sm:py-3"
     />
     <slot name="header" />
     <slot />

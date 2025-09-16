@@ -27,16 +27,16 @@ const handleGoToInstructions = () => {
 </script>
 
 <template>
-  <div class="flex items-center justify-between px-4 sm:px-6 lg:px-6 py-3">
+  <div class="flex items-center justify-between px-3 sm:px-6 lg:px-6 py-2 sm:py-3">
     <div class="flex items-center space-x-4 cursor-pointer group" @click="handleGoToHome">
       <PolkadotToken
         color="white"
         class="h-12 w-auto"
       />
       <div>
-        <h1 class="text-xl cyber-heading" data-text="IDEAS_HUB">IDEAS_HUB</h1>
-        <p class="text-cyber-blue text-xs uppercase tracking-wider">
-          > INNOVATION_PROTOCOL_ACTIVE
+        <h1 class="text-lg sm:text-xl cyber-heading" data-text="IDEAS_HUB">IDEAS_HUB</h1>
+        <p class="text-cyber-blue text-[10px] sm:text-xs uppercase tracking-wider">
+          > INNOVATION_PROTOCOL
         </p>
       </div>
     </div>

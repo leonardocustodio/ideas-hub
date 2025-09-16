@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { eq, gte } from 'drizzle-orm';
 
 export default eventHandler(async () => {
   const db = useDrizzle();
@@ -48,8 +48,26 @@ export default eventHandler(async () => {
     .from(tables.votes)
     .all();
 
+  // Get recent vote counts (last 7 days) for trending
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+  const recentVoteCounts = await db
+    .select({
+      ideaId: tables.votes.ideaId
+    })
+    .from(tables.votes)
+    .where(gte(tables.votes.createdAt, sevenDaysAgo))
+    .all();
+
   // Count votes per idea
   const votesByIdea = voteCounts.reduce((acc, vote) => {
+    acc[vote.ideaId] = (acc[vote.ideaId] || 0) + 1;
+    return acc;
+  }, {} as Record<number, number>);
+
+  // Count recent votes per idea
+  const recentVotesByIdea = recentVoteCounts.reduce((acc, vote) => {
     acc[vote.ideaId] = (acc[vote.ideaId] || 0) + 1;
     return acc;
   }, {} as Record<number, number>);
@@ -78,6 +96,7 @@ export default eventHandler(async () => {
     video: idea.video,
     views: idea.views || 0,
     votes: votesByIdea[idea.id] || 0,
+    recentVotes: recentVotesByIdea[idea.id] || 0,
     createdAt: idea.createdAt,
     author: idea.authorName || 'Anonymous',
     tags: tagsByIdea[idea.id] || [],

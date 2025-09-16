@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { IdeaFormData } from '~/types';
 
+const { start, finish } = useLoadingIndicator();
+const isSubmitting = ref(false);
+
 const handleSubmit = async (formData: IdeaFormData) => {
   const processedTags = formData.tags
     ? formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
@@ -10,6 +13,10 @@ const handleSubmit = async (formData: IdeaFormData) => {
 
   let iconUrl = null;
   let galleryUrls: string[] = [];
+
+  // Start loading indicator and set submitting state
+  start();
+  isSubmitting.value = true;
 
   try {
     if (formData.thumbnail) {
@@ -61,9 +68,16 @@ const handleSubmit = async (formData: IdeaFormData) => {
       body: ideaData
     });
 
+    // Success - finish loading and reset state
+    finish();
+    isSubmitting.value = false;
+
     navigateTo('/');
   } catch (error) {
     console.error('Failed to add idea:', error);
+    // Error - finish loading with error state and reset state
+    finish({ error: true });
+    isSubmitting.value = false;
   }
 };
 
@@ -77,6 +91,7 @@ const handleBack = () => {
 
     <AppContainer>
       <SubmissionContainer
+        :is-submitting="isSubmitting"
         @back="handleBack"
         @submit="handleSubmit"
       />

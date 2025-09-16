@@ -10,7 +10,7 @@ defineProps<Props>();
 
 <template>
   <TerminalContainer header-title="MAIN" header-subtitle="IDEA">
-    <div class="px-4 sm:px-6 lg:px-6 py-3">
+    <div class="px-3 sm:px-6 lg:px-6 py-3">
       <!-- Header with Icon, Name and Tagline -->
       <div class="flex items-start space-x-4 mb-4">
         <!-- Icon -->

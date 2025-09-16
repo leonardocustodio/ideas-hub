@@ -328,14 +328,6 @@
     border: 2px solid #00FFFF;
   }
 
-  .terminal-header {
-    @apply border-b border-cyber-blue;
-    position: relative;
-    min-height: 2.5rem;
-    display: flex;
-    align-items: center;
-  }
-
   .neon-border {
     position: relative;
   }

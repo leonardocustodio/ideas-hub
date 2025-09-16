@@ -16,13 +16,13 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div class="terminal-header flex items-center justify-between">
+  <div class="flex items-center justify-between border-b border-cyber-blue relative min-h-[2.5rem]">
     <div class="flex items-center">
       <TerminalControl v-if="showControls" class="mr-4" />
-      <span v-if="title" class="text-cyber-blue">[{{ title }}]</span>
-      <span v-if="subtitle" class="text-cyber-green ml-2">{{ subtitle }}</span>
+      <span v-if="title" class="text-cyber-blue text-sm sm:text-base">[{{ title }}]</span>
+      <span v-if="subtitle" class="text-cyber-green ml-2 text-sm sm:text-base">{{ subtitle }}</span>
       <slot />
     </div>
-    <span v-if="rightContent" class="text-cyber-pink hidden sm:block">{{ rightContent }}</span>
+    <span v-if="rightContent" class="text-cyber-pink hidden sm:block text-sm sm:text-base">{{ rightContent }}</span>
   </div>
 </template>

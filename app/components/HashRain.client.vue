@@ -12,11 +12,15 @@ const hashColumns = ref<HashColumn[]>([]);
 
 onMounted(() => {
   const hexChars = '0123456789ABCDEF';
-  hashColumns.value = Array.from({ length: 50 }, () => ({
+  const isMobile = window.innerWidth < 640; // Tailwind's sm breakpoint
+  const columnCount = isMobile ? 25 : 50;
+  const textLength = isMobile ? 30 : 40;
+
+  hashColumns.value = Array.from({ length: columnCount }, () => ({
     left: Math.random() * 100 + '%',
     animationDelay: Math.random() * 10 + 's',
     animationDuration: (Math.random() * 10 + 10) + 's',
-    text: Array.from({ length: 40 }, () => hexChars[Math.floor(Math.random() * 16)]).join('')
+    text: Array.from({ length: textLength }, () => hexChars[Math.floor(Math.random() * 16)]).join('')
   }));
 });
 </script>
@@ -54,13 +58,19 @@ onMounted(() => {
   position: absolute;
   top: -100vh;
   color: #00FF41;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.2;
   animation: hashChar 10s linear infinite;
   opacity: 0.3;
   writing-mode: vertical-rl;
   text-orientation: upright;
   filter: blur(0.5px);
+}
+
+@media (min-width: 640px) {
+  .hash-column {
+    font-size: 14px;
+  }
 }
 
 @keyframes hashChar {

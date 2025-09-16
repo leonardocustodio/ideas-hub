@@ -44,23 +44,33 @@ const handleVote = async () => {
 
 <template>
   <TerminalContainer header-title="CONTROL" header-subtitle="ACTIONS">
-    <div class="space-y-4 px-4 sm:px-6 lg:px-6 py-3">
+    <div class="space-y-4 px-3 sm:px-6 lg:px-6 py-2 sm:py-3">
       <!-- Navigation Buttons -->
       <div class="flex justify-between space-x-4">
         <button
-          class="flex-1 flex items-center justify-center space-x-2 py-2 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200 text-cyber-green border border-cyber-green hover:bg-cyber-green hover:text-black"
+          class="flex-1 flex items-center justify-center space-x-2 py-2 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200 text-cyber-green border border-cyber-green hover:bg-cyber-green hover:text-black relative group"
           @click="emit('go-previous')"
         >
           <IconArrowLeft class="w-4 h-4" />
           <span>Previous</span>
+
+          <!-- Tooltip -->
+          <span class="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-darker-bg border border-cyber-blue text-cyber-blue text-[10px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+            Press ← key
+          </span>
         </button>
 
         <button
-          class="flex-1 flex items-center justify-center space-x-2 py-2 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200 text-cyber-green border border-cyber-green hover:bg-cyber-green hover:text-black"
+          class="flex-1 flex items-center justify-center space-x-2 py-2 px-3 text-xs font-medium uppercase shadow-sm transition-all duration-200 text-cyber-green border border-cyber-green hover:bg-cyber-green hover:text-black relative group"
           @click="emit('go-next')"
         >
           <span>Next</span>
           <IconArrowRight class="w-4 h-4" />
+
+          <!-- Tooltip -->
+          <span class="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-darker-bg border border-cyber-blue text-cyber-blue text-[10px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+            Press → key
+          </span>
         </button>
       </div>
 

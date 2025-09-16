@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, onMounted } from 'vue';
+import { computed, watch, onMounted, onUnmounted } from 'vue';
 import MediaContainer from "~/components/media/MediaContainer.vue";
 import CommentsContainer from "~/components/comments/CommentsContainer.vue";
 import ReferenceContainer from "~/components/ReferenceContainer.vue";
@@ -85,6 +85,20 @@ const goToNext = () => {
   }
 };
 
+const handleKeyPress = (e: KeyboardEvent) => {
+  // Check if the user is typing in an input or textarea
+  const activeElement = document.activeElement;
+  if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+    return;
+  }
+
+  if (e.key === 'ArrowLeft') {
+    goToPrevious();
+  } else if (e.key === 'ArrowRight') {
+    goToNext();
+  }
+};
+
 // Initialize voting and redirect if needed
 onMounted(async () => {
   if (!idea.value) {
@@ -92,6 +106,12 @@ onMounted(async () => {
   } else {
     await initializeVoting();
   }
+
+  window.addEventListener('keydown', handleKeyPress);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeyPress);
 });
 </script>
 

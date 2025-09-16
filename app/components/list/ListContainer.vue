@@ -13,7 +13,7 @@ const emit = defineEmits<{
   createIdea: [];
 }>();
 
-const timeRanges = ['Latest', 'Trending', 'All-time'];
+const timeRanges = ['Latest', 'Trending', 'All'];
 const showEmpty = ref(false);
 const localSelectedOption = ref(props.selectedTimeRange);
 
