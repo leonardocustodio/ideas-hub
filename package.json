@@ -15,7 +15,7 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
-    "@fingerprintjs/fingerprintjs": "^4.6.2",
+    "@fingerprintjs/fingerprintjs": "^5.0.1",
     "@nuxt/image": "^1.11.0",
     "@nuxt/ui": "^4.0.0-alpha.1",
     "@nuxthub/core": "0.9.0",
